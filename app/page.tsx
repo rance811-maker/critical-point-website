@@ -400,6 +400,9 @@ const localizedCopy = {
   "zh-Hant": toTraditional(copy.zh),
 } as const;
 
+const briefFormName = "critical-point-project-brief";
+const briefEmailSubject = "Critical Point | New project brief";
+
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [briefProblem, setBriefProblem] = useState("");
@@ -438,24 +441,45 @@ export default function Home() {
     setBriefStatus("sending");
 
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
-        method: "POST",
-        headers: {
-          apikey: supabaseAnonKey,
-          Authorization: `Bearer ${supabaseAnonKey}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-        },
-        body: JSON.stringify({
-          problem: normalizedProblem,
-          stage: selectedStage,
-          contact: normalizedContact,
-          locale: lang,
-          source_url: window.location.href,
-        }),
+      const sourceUrl = window.location.href;
+      const netlifyPayload = new URLSearchParams({
+        "form-name": briefFormName,
+        subject: briefEmailSubject,
+        "bot-field": "",
+        problem: normalizedProblem,
+        stage: selectedStage,
+        contact: normalizedContact,
+        locale: lang,
+        source_url: sourceUrl,
       });
 
-      if (!response.ok) throw new Error("Submission failed");
+      const [supabaseResponse, notificationResponse] = await Promise.all([
+        fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
+          method: "POST",
+          headers: {
+            apikey: supabaseAnonKey,
+            Authorization: `Bearer ${supabaseAnonKey}`,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify({
+            problem: normalizedProblem,
+            stage: selectedStage,
+            contact: normalizedContact,
+            locale: lang,
+            source_url: sourceUrl,
+          }),
+        }),
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: netlifyPayload.toString(),
+        }),
+      ]);
+
+      if (!supabaseResponse.ok || !notificationResponse.ok) {
+        throw new Error("Submission failed");
+      }
 
       setBriefProblem("");
       setBriefStage("");
@@ -468,6 +492,22 @@ export default function Home() {
 
   return (
     <div className={`site ${lang === "en" ? "is-en" : "is-zh"}`}>
+      <form
+        name={briefFormName}
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        hidden
+        aria-hidden="true"
+      >
+        <input type="hidden" name="form-name" value={briefFormName} />
+        <input type="hidden" name="subject" value={briefEmailSubject} data-remove-prefix />
+        <input type="text" name="bot-field" readOnly />
+        <textarea name="problem" readOnly />
+        <input type="text" name="stage" readOnly />
+        <input type="text" name="contact" readOnly />
+        <input type="text" name="locale" readOnly />
+        <input type="text" name="source_url" readOnly />
+      </form>
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Critical Point home">
           <span className="brand-mark" aria-hidden="true">
@@ -720,7 +760,20 @@ export default function Home() {
               <p className="contact-note"><span />{t.contactNote}</p>
             </div>
 
-            <form className="project-brief" onSubmit={submitBrief}>
+            <form
+              className="project-brief"
+              name={briefFormName}
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              onSubmit={submitBrief}
+            >
+              <input type="hidden" name="form-name" value={briefFormName} />
+              <input type="hidden" name="subject" value={briefEmailSubject} data-remove-prefix />
+              <label className="brief-honeypot" aria-hidden="true">
+                Leave this field empty
+                <input type="text" name="bot-field" tabIndex={-1} autoComplete="off" />
+              </label>
               <div className="brief-head">
                 <span>{t.briefKicker}</span>
                 <h3>{t.briefTitle}</h3>
@@ -731,6 +784,7 @@ export default function Home() {
                 <strong>{t.briefProblem}</strong>
                 <textarea
                   id="brief-problem"
+                  name="problem"
                   value={briefProblem}
                   onChange={(event) => {
                     setBriefProblem(event.target.value);
@@ -769,6 +823,7 @@ export default function Home() {
                 <strong>{t.briefContact}</strong>
                 <input
                   id="brief-contact"
+                  name="contact"
                   type="text"
                   value={briefContact}
                   onChange={(event) => {
