@@ -158,6 +158,7 @@ const copy = {
     briefSubmit: "提交一个场景",
     briefSending: "正在提交……",
     briefSuccess: "已收到，我们会尽快联系你。",
+    briefValidation: "请至少用 10 个字描述问题，并填写有效的联系方式。",
     briefError: "暂时未能提交，请直接发送邮件。",
     briefNote: "提交内容只用于项目沟通，不会公开显示。",
     briefSubject: "临界创新｜项目场景简报",
@@ -321,6 +322,7 @@ const copy = {
     briefSubmit: "Share a scenario",
     briefSending: "Sending…",
     briefSuccess: "Received. We will be in touch shortly.",
+    briefValidation: "Please describe the problem in at least 10 characters and provide valid contact details.",
     briefError: "Unable to send right now. Please email us directly.",
     briefNote: "Your information is used only to discuss this project and is not published.",
     briefSubject: "Critical Point | Project scenario brief",
@@ -397,7 +399,7 @@ export default function Home() {
   const [briefProblem, setBriefProblem] = useState("");
   const [briefStage, setBriefStage] = useState("");
   const [briefContact, setBriefContact] = useState("");
-  const [briefStatus, setBriefStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [briefStatus, setBriefStatus] = useState<"idle" | "sending" | "success" | "validation" | "error">("idle");
   const t = localizedCopy[lang];
 
   useEffect(() => {
@@ -406,9 +408,16 @@ export default function Home() {
 
   async function submitBrief(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const selectedStage = briefStage === "" ? "—" : t.briefStages[Number(briefStage)];
+    const normalizedProblem = briefProblem.trim();
+    const normalizedContact = briefContact.trim();
+    const selectedStage = briefStage === "" ? "" : t.briefStages[Number(briefStage)];
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (normalizedProblem.length < 10 || normalizedContact.length < 3 || !selectedStage) {
+      setBriefStatus("validation");
+      return;
+    }
 
     if (!supabaseUrl || !supabaseAnonKey) {
       const message = [
@@ -432,9 +441,9 @@ export default function Home() {
           Prefer: "return=minimal",
         },
         body: JSON.stringify({
-          problem: briefProblem.trim(),
+          problem: normalizedProblem,
           stage: selectedStage,
-          contact: briefContact.trim(),
+          contact: normalizedContact,
           locale: lang,
           source_url: window.location.href,
         }),
@@ -717,7 +726,10 @@ export default function Home() {
                 <textarea
                   id="brief-problem"
                   value={briefProblem}
-                  onChange={(event) => setBriefProblem(event.target.value)}
+                  onChange={(event) => {
+                    setBriefProblem(event.target.value);
+                    setBriefStatus("idle");
+                  }}
                   placeholder={t.briefProblemPlaceholder}
                   rows={4}
                   required
@@ -734,7 +746,10 @@ export default function Home() {
                         name="brief-stage"
                         value={index}
                         checked={briefStage === String(index)}
-                        onChange={(event) => setBriefStage(event.target.value)}
+                        onChange={(event) => {
+                          setBriefStage(event.target.value);
+                          setBriefStatus("idle");
+                        }}
                         required
                       />
                       <span>{stage}</span>
@@ -750,7 +765,10 @@ export default function Home() {
                   id="brief-contact"
                   type="text"
                   value={briefContact}
-                  onChange={(event) => setBriefContact(event.target.value)}
+                  onChange={(event) => {
+                    setBriefContact(event.target.value);
+                    setBriefStatus("idle");
+                  }}
                   placeholder={t.briefContactPlaceholder}
                   autoComplete="email"
                   required
@@ -763,6 +781,8 @@ export default function Home() {
               <p className={`brief-note ${briefStatus}`} aria-live="polite">
                 {briefStatus === "success"
                   ? t.briefSuccess
+                  : briefStatus === "validation"
+                    ? t.briefValidation
                   : briefStatus === "error"
                     ? t.briefError
                     : t.briefNote}

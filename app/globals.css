@@ -1638,6 +1638,10 @@ footer {
   color: #79d7c9;
 }
 
+.brief-note.validation {
+  color: #dfc27f;
+}
+
 .brief-note.error {
   color: #e2a597;
 }
