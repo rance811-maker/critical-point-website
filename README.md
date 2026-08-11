@@ -2,6 +2,8 @@
 
 Company website for Critical Point Internet Technology Service Limited.
 
+Live site: https://critical-point-ai.netlify.app
+
 ## Stack
 
 - React and vinext
