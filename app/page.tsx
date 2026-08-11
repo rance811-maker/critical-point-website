@@ -423,7 +423,7 @@ export default function Home() {
     setBriefStatus("sending");
 
     try {
-      const response = await fetch(`${supabaseUrl}/rest/v1/project_briefs`, {
+      const response = await fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
         method: "POST",
         headers: {
           apikey: supabaseAnonKey,

@@ -1,4 +1,4 @@
-create table if not exists public.project_briefs (
+create table if not exists public.critical_point_project_briefs (
   id uuid primary key default gen_random_uuid(),
   problem text not null check (char_length(problem) between 10 and 4000),
   stage text not null check (char_length(stage) between 2 and 120),
@@ -8,12 +8,10 @@ create table if not exists public.project_briefs (
   created_at timestamptz not null default now()
 );
 
-alter table public.project_briefs enable row level security;
+alter table public.critical_point_project_briefs enable row level security;
 
-drop policy if exists "allow anonymous project brief submissions" on public.project_briefs;
-
-create policy "allow anonymous project brief submissions"
-on public.project_briefs
+create policy "allow anonymous critical point brief submissions"
+on public.critical_point_project_briefs
 for insert
 to anon
 with check (
@@ -22,5 +20,4 @@ with check (
   and char_length(contact) between 3 and 500
 );
 
-revoke all on table public.project_briefs from anon;
-grant insert on table public.project_briefs to anon;
+grant insert on table public.critical_point_project_briefs to anon;
