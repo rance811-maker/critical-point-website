@@ -157,8 +157,11 @@ const copy = {
     briefContactPlaceholder: "邮箱、微信或 WhatsApp",
     briefSubmit: "提交一个场景",
     briefSending: "正在提交……",
+    briefSuccessTitle: "提交成功",
     briefSuccess: "已收到，我们会尽快联系你。",
+    briefValidationTitle: "还差一点",
     briefValidation: "请至少用 10 个字描述问题，并填写有效的联系方式。",
+    briefErrorTitle: "提交未完成",
     briefError: "暂时未能提交，请直接发送邮件。",
     briefNote: "提交内容只用于项目沟通，不会公开显示。",
     briefSubject: "临界创新｜项目场景简报",
@@ -321,8 +324,11 @@ const copy = {
     briefContactPlaceholder: "Email, WeChat, or WhatsApp",
     briefSubmit: "Share a scenario",
     briefSending: "Sending…",
+    briefSuccessTitle: "Brief received",
     briefSuccess: "Received. We will be in touch shortly.",
+    briefValidationTitle: "A little more detail",
     briefValidation: "Please describe the problem in at least 10 characters and provide valid contact details.",
+    briefErrorTitle: "Submission not completed",
     briefError: "Unable to send right now. Please email us directly.",
     briefNote: "Your information is used only to discuss this project and is not published.",
     briefSubject: "Critical Point | Project scenario brief",
@@ -775,18 +781,50 @@ export default function Home() {
                 />
               </label>
 
-              <button className="brief-submit" type="submit" disabled={briefStatus === "sending"}>
-                {briefStatus === "sending" ? t.briefSending : t.briefSubmit}<span aria-hidden="true">↗</span>
+              <button
+                className={`brief-submit ${briefStatus === "success" ? "is-success" : ""}`}
+                type="submit"
+                disabled={briefStatus === "sending"}
+              >
+                {briefStatus === "sending"
+                  ? t.briefSending
+                  : briefStatus === "success"
+                    ? t.briefSuccessTitle
+                    : t.briefSubmit}
+                <span aria-hidden="true">{briefStatus === "success" ? "✓" : "↗"}</span>
               </button>
-              <p className={`brief-note ${briefStatus}`} aria-live="polite">
-                {briefStatus === "success"
-                  ? t.briefSuccess
-                  : briefStatus === "validation"
-                    ? t.briefValidation
-                  : briefStatus === "error"
-                    ? t.briefError
-                    : t.briefNote}
-              </p>
+              {briefStatus === "success" || briefStatus === "validation" || briefStatus === "error" ? (
+                <div
+                  className={`brief-feedback ${briefStatus}`}
+                  role={briefStatus === "error" ? "alert" : "status"}
+                  aria-live={briefStatus === "error" ? "assertive" : "polite"}
+                >
+                  <span className="brief-feedback-icon" aria-hidden="true">
+                    {briefStatus === "success" ? "✓" : briefStatus === "validation" ? "!" : "×"}
+                  </span>
+                  <div>
+                    <strong>
+                      {briefStatus === "success"
+                        ? t.briefSuccessTitle
+                        : briefStatus === "validation"
+                          ? t.briefValidationTitle
+                          : t.briefErrorTitle}
+                    </strong>
+                    <p>
+                      {briefStatus === "success"
+                        ? t.briefSuccess
+                        : briefStatus === "validation"
+                          ? t.briefValidation
+                          : t.briefError}
+                    </p>
+                  </div>
+                  {briefStatus === "error" ? (
+                    <a href="mailto:rance811@gmail.com">{t.contactCta} ↗</a>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="brief-note" aria-live="polite">{t.briefNote}</p>
+              )}
             </form>
           </div>
         </section>
