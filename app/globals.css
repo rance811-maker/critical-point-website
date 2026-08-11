@@ -1375,6 +1375,14 @@ footer {
   font-size: clamp(44px, 5.6vw, 82px);
 }
 
+.site.is-zh .expert-network h2,
+.site.is-zh .contact h2 {
+  font-size: clamp(34px, 2.7vw, 42px);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
 .contact-body {
   max-width: 650px;
   margin: 25px 0 0;
@@ -1685,6 +1693,12 @@ footer {
   .capability-grid { grid-template-columns: repeat(2, 1fr); }
   .case { grid-template-columns: 50px 1fr 1fr; }
   .case-tags { grid-column: 2 / -1; justify-content: flex-start; }
+  .expert-network,
+  .contact-layout { grid-template-columns: 1fr; }
+  .expert-network { gap: 65px; }
+  .contact-layout { gap: 70px; }
+  .contact-copy,
+  .project-brief { width: min(100%, 760px); }
 }
 
 @media (max-width: 900px) {
