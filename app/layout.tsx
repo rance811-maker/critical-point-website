@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = "https://meetcriticalpoint.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "CRITICAL POINT | AI Product Strategy & Intelligent Workflows",
   description:
     "Critical Point turns complex business problems into focused AI opportunities, testable product directions, and intelligent systems built to run and evolve.",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/critical-point-logo.jpg",
     shortcut: "/critical-point-logo.jpg",
