@@ -402,6 +402,7 @@ const localizedCopy = {
 
 const briefFormName = "critical-point-project-brief";
 const briefEmailSubject = "Critical Point | New project brief";
+const netlifyFormEndpoint = "https://meetcriticalpoint.com/";
 
 export default function HomePage({ lang }: { lang: Lang }) {
   const [briefProblem, setBriefProblem] = useState("");
@@ -452,33 +453,37 @@ export default function HomePage({ lang }: { lang: Lang }) {
         source_url: sourceUrl,
       });
 
-      const [supabaseResponse, notificationResponse] = await Promise.all([
-        fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
-          method: "POST",
-          headers: {
-            apikey: supabaseAnonKey,
-            Authorization: `Bearer ${supabaseAnonKey}`,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify({
-            problem: normalizedProblem,
-            stage: selectedStage,
-            contact: normalizedContact,
-            locale: lang,
-            source_url: sourceUrl,
-          }),
+      const supabaseResponse = await fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
+        method: "POST",
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({
+          problem: normalizedProblem,
+          stage: selectedStage,
+          contact: normalizedContact,
+          locale: lang,
+          source_url: sourceUrl,
         }),
-        fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: netlifyPayload.toString(),
-        }),
-      ]);
+      });
 
-      if (!supabaseResponse.ok || !notificationResponse.ok) {
+      if (!supabaseResponse.ok) {
         throw new Error("Submission failed");
       }
+
+      // Email notification goes through Netlify Forms. The site may be served
+      // from a non-Netlify host (EdgeOne for www), so post to the Netlify-hosted
+      // domain explicitly. It is best-effort: the brief is already stored in
+      // Supabase, so a notification failure must not show an error to visitors.
+      fetch(netlifyFormEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: netlifyPayload.toString(),
+      }).catch(() => undefined);
 
       setBriefProblem("");
       setBriefStage("");
