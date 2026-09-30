@@ -162,7 +162,7 @@ const copy = {
     briefValidationTitle: "还差一点",
     briefValidation: "请至少用 10 个字描述问题，并填写有效的联系方式。",
     briefErrorTitle: "提交未完成",
-    briefError: "暂时未能提交，请直接发送邮件。",
+    briefError: "内容暂时未能保存，我们已尝试把它转发到邮箱。为确保送达，请点击下方按钮直接发送邮件，内容已自动填好。",
     briefNote: "提交内容只用于项目沟通，不会公开显示。",
     briefSubject: "临界创新｜项目场景简报",
     footerLegal: "临界创新互联网技术服务有限公司",
@@ -329,7 +329,7 @@ const copy = {
     briefValidationTitle: "A little more detail",
     briefValidation: "Please describe the problem in at least 10 characters and provide valid contact details.",
     briefErrorTitle: "Submission not completed",
-    briefError: "Unable to send right now. Please email us directly.",
+    briefError: "We could not save your brief, so we tried forwarding it to our inbox. To be sure it arrives, use the button below to email it directly — the details are already filled in.",
     briefNote: "Your information is used only to discuss this project and is not published.",
     briefSubject: "Critical Point | Project scenario brief",
     footerLegal: "CRITICAL POINT INTERNET TECHNOLOGY SERVICE LIMITED",
@@ -363,7 +363,7 @@ const traditionalCharacters: Record<string, string> = {
   "医": "醫", "药": "藥", "汉": "漢", "简": "簡", "从": "從", "么": "麼",
   "别": "別", "过": "過", "仅": "僅", "项": "項", "来": "來", "称": "稱",
   "脱": "脫", "阶": "階", "准": "準", "备": "備", "点": "點", "击": "擊",
-  "当": "當", "风": "風", "险": "險", "显": "顯", "错": "錯", "邹": "鄒",
+  "当": "當", "风": "風", "险": "險", "显": "顯", "错": "錯", "邹": "鄒", "尝": "嘗", "试": "試", "达": "達", "钮": "鈕",
 };
 
 function toTraditional<T>(value: T): T {
@@ -403,12 +403,27 @@ const localizedCopy = {
 const briefFormName = "critical-point-project-brief";
 const briefEmailSubject = "Critical Point | New project brief";
 const netlifyFormEndpoint = "https://meetcriticalpoint.com/";
+const briefMailbox = "rance811@gmail.com";
+
+// Email notification goes through Netlify Forms. The site may be served from a
+// non-Netlify host (EdgeOne for www), so post to the Netlify-hosted domain
+// explicitly. The response is opaque (no-cors), so this is fire-and-forget.
+function sendBriefNotification(fields: Record<string, string>) {
+  return fetch(netlifyFormEndpoint, {
+    method: "POST",
+    mode: "no-cors",
+    keepalive: true,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ "form-name": briefFormName, "bot-field": "", ...fields }).toString(),
+  }).catch(() => undefined);
+}
 
 export default function HomePage({ lang }: { lang: Lang }) {
   const [briefProblem, setBriefProblem] = useState("");
   const [briefStage, setBriefStage] = useState("");
   const [briefContact, setBriefContact] = useState("");
   const [briefStatus, setBriefStatus] = useState<"idle" | "sending" | "success" | "validation" | "error">("idle");
+  const [briefMailto, setBriefMailto] = useState(`mailto:${briefMailbox}`);
   const t = localizedCopy[lang];
 
   useEffect(() => {
@@ -428,31 +443,29 @@ export default function HomePage({ lang }: { lang: Lang }) {
       return;
     }
 
+    const briefMessage = [
+      `${t.briefProblem}\n${normalizedProblem}`,
+      `${t.briefStage}\n${selectedStage}`,
+      `${t.briefContact}\n${normalizedContact}`,
+    ].join("\n\n");
+    const mailto = `mailto:${briefMailbox}?subject=${encodeURIComponent(t.briefSubject)}&body=${encodeURIComponent(briefMessage)}`;
+
     if (!supabaseUrl || !supabaseAnonKey) {
-      const message = [
-        `${t.briefProblem}\n${briefProblem}`,
-        `${t.briefStage}\n${selectedStage}`,
-        `${t.briefContact}\n${briefContact}`,
-      ].join("\n\n");
-      window.location.href = `mailto:rance811@gmail.com?subject=${encodeURIComponent(t.briefSubject)}&body=${encodeURIComponent(message)}`;
+      window.location.href = mailto;
       return;
     }
+
+    const briefFields = {
+      problem: normalizedProblem,
+      stage: selectedStage,
+      contact: normalizedContact,
+      locale: lang,
+      source_url: window.location.href,
+    };
 
     setBriefStatus("sending");
 
     try {
-      const sourceUrl = window.location.href;
-      const netlifyPayload = new URLSearchParams({
-        "form-name": briefFormName,
-        subject: briefEmailSubject,
-        "bot-field": "",
-        problem: normalizedProblem,
-        stage: selectedStage,
-        contact: normalizedContact,
-        locale: lang,
-        source_url: sourceUrl,
-      });
-
       const supabaseResponse = await fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
         method: "POST",
         headers: {
@@ -461,35 +474,29 @@ export default function HomePage({ lang }: { lang: Lang }) {
           "Content-Type": "application/json",
           Prefer: "return=minimal",
         },
-        body: JSON.stringify({
-          problem: normalizedProblem,
-          stage: selectedStage,
-          contact: normalizedContact,
-          locale: lang,
-          source_url: sourceUrl,
-        }),
+        body: JSON.stringify(briefFields),
       });
 
       if (!supabaseResponse.ok) {
         throw new Error("Submission failed");
       }
 
-      // Email notification goes through Netlify Forms. The site may be served
-      // from a non-Netlify host (EdgeOne for www), so post to the Netlify-hosted
-      // domain explicitly. It is best-effort: the brief is already stored in
-      // Supabase, so a notification failure must not show an error to visitors.
-      fetch(netlifyFormEndpoint, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: netlifyPayload.toString(),
-      }).catch(() => undefined);
+      void sendBriefNotification({ subject: briefEmailSubject, storage_status: "stored", ...briefFields });
 
       setBriefProblem("");
       setBriefStage("");
       setBriefContact("");
       setBriefStatus("success");
     } catch {
+      // Storage failed: forward the brief by email so the lead is not lost, and
+      // give the visitor a prefilled email as a second channel. Keep the form
+      // filled in so nothing typed is lost either.
+      void sendBriefNotification({
+        subject: `[存储失败 / NOT SAVED] ${briefEmailSubject}`,
+        storage_status: "failed",
+        ...briefFields,
+      });
+      setBriefMailto(mailto);
       setBriefStatus("error");
     }
   }
@@ -511,6 +518,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
         <input type="text" name="contact" readOnly />
         <input type="text" name="locale" readOnly />
         <input type="text" name="source_url" readOnly />
+        <input type="text" name="storage_status" readOnly />
       </form>
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Critical Point home">
@@ -878,7 +886,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
                     </p>
                   </div>
                   {briefStatus === "error" ? (
-                    <a href="mailto:rance811@gmail.com">{t.contactCta} ↗</a>
+                    <a href={briefMailto}>{t.contactCta} ↗</a>
                   ) : null}
                 </div>
               ) : (
