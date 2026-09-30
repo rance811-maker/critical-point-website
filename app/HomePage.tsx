@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 
-type Lang = "en" | "zh-Hans" | "zh-Hant";
+import { langPaths, type Lang } from "./i18n";
 
 const copy = {
   zh: {
@@ -112,7 +112,7 @@ const copy = {
     ],
     founderKicker: "创始人 / 04",
     founderRole: "创始人 · AI 产品战略与构建",
-    founderTitle: "鄒燃 / Ran Zou",
+    founderTitle: "邹燃 / Ran Zou",
     founderIntro:
       "17 年阿里巴巴互联网产品与数字化经验，长期从事产品规划、跨团队项目管理与商业化落地。",
     founderQuote:
@@ -363,7 +363,7 @@ const traditionalCharacters: Record<string, string> = {
   "医": "醫", "药": "藥", "汉": "漢", "简": "簡", "从": "從", "么": "麼",
   "别": "別", "过": "過", "仅": "僅", "项": "項", "来": "來", "称": "稱",
   "脱": "脫", "阶": "階", "准": "準", "备": "備", "点": "點", "击": "擊",
-  "当": "當", "风": "風", "险": "險", "显": "顯", "错": "錯",
+  "当": "當", "风": "風", "险": "險", "显": "顯", "错": "錯", "邹": "鄒",
 };
 
 function toTraditional<T>(value: T): T {
@@ -403,8 +403,7 @@ const localizedCopy = {
 const briefFormName = "critical-point-project-brief";
 const briefEmailSubject = "Critical Point | New project brief";
 
-export default function Home() {
-  const [lang, setLang] = useState<Lang>("en");
+export default function HomePage({ lang }: { lang: Lang }) {
   const [briefProblem, setBriefProblem] = useState("");
   const [briefStage, setBriefStage] = useState("");
   const [briefContact, setBriefContact] = useState("");
@@ -529,17 +528,17 @@ export default function Home() {
 
         <div className="nav-actions">
           <div className="lang-switch" aria-label="Language switcher">
-            <button aria-pressed={lang === "en"} className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>
+            <a href={langPaths.en} hrefLang="en" aria-current={lang === "en" ? "page" : undefined} className={lang === "en" ? "active" : ""}>
               EN
-            </button>
+            </a>
             <span>/</span>
-            <button aria-pressed={lang === "zh-Hans"} className={lang === "zh-Hans" ? "active" : ""} onClick={() => setLang("zh-Hans")}>
+            <a href={langPaths["zh-Hans"]} hrefLang="zh-Hans" aria-current={lang === "zh-Hans" ? "page" : undefined} className={lang === "zh-Hans" ? "active" : ""}>
               简
-            </button>
+            </a>
             <span>/</span>
-            <button aria-pressed={lang === "zh-Hant"} className={lang === "zh-Hant" ? "active" : ""} onClick={() => setLang("zh-Hant")}>
+            <a href={langPaths["zh-Hant"]} hrefLang="zh-Hant" aria-current={lang === "zh-Hant" ? "page" : undefined} className={lang === "zh-Hant" ? "active" : ""}>
               繁
-            </button>
+            </a>
           </div>
           <a className="nav-cta" href="#contact">
             {t.navCta}
