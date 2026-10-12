@@ -1,0 +1,32 @@
+.services-experience-icon {
+  display: block;
+  width: 120px;
+  height: 90px;
+  flex: none;
+  overflow: visible;
+  color: #416f61;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.services-experience-icon--finance { color: #42766c; }
+.services-experience-icon__shadow { fill: currentColor; opacity: .1; }
+.services-experience-icon__line,
+.services-experience-icon__roof,
+.services-experience-icon__spark { fill: none; stroke: currentColor; stroke-width: 2.8; }
+.services-experience-icon__book-edge { fill: #b8cbb1; stroke: currentColor; stroke-width: 2.3; }
+.services-experience-icon__book-page { fill: #f6f9ef; stroke: currentColor; stroke-width: 2.3; }
+.services-experience-icon__bookmark { fill: #c4d6bc; stroke: currentColor; stroke-width: 1.8; }
+.services-experience-icon__page-line { fill: none; stroke: #9bb39a; stroke-width: 2; }
+.services-experience-icon__bubble { fill: #edf4e4; stroke: currentColor; stroke-width: 2.3; }
+.services-experience-icon__bubble-alt { fill: #c0d5b8; stroke: currentColor; stroke-width: 2.3; }
+.services-experience-icon__letters { fill: currentColor; font: 600 19px Georgia, serif; letter-spacing: -.5px; }
+.services-experience-icon__eye { fill: currentColor; }
+.services-experience-icon__bank { fill: #a9cdc0; stroke: currentColor; stroke-width: 2.8; }
+.services-experience-icon__ear { fill: #cde2d7; stroke: currentColor; stroke-width: 2.8; }
+.services-experience-icon__house { fill: #edf4e9; stroke: currentColor; stroke-width: 2.3; }
+.services-experience-icon__roof { stroke-width: 3.6; }
+.services-experience-icon__snout { fill: none; stroke: #77a294; stroke-width: 2.4; }
+.services-experience-icon__coin { fill: #e8dcb2; stroke: #8c8660; stroke-width: 2.3; }
+.services-experience-icon__coin-mark { fill: none; stroke: #8c8660; stroke-width: 1.8; }
+.services-experience-icon__heart { fill: #f5f8ec; stroke: currentColor; stroke-width: 1.8; }
+.services-experience-icon__spark { stroke-width: 2; opacity: .65; }

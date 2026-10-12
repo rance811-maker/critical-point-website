@@ -75,6 +75,13 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
         setTopic(selected);
         setStage("");
         setStatus("idle");
+        // Older service links used the broad contact section as their target.
+        // Keep those links useful while sending enquiries straight to the form.
+        if (window.location.hash === "#contact") {
+          const target = new URL(window.location.href);
+          target.hash = "enquiry";
+          window.location.replace(target.toString());
+        }
       }
     }
     const timer = window.setTimeout(syncFromLocation, 0);
@@ -88,6 +95,7 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
   }, []);
 
   const training = topic === "ai-usage" || topic === "product";
+  const selectedConsultation = services.consulting.cards.find(card => card.id === topic);
   const price = !topic ? undefined : topic === "enterprise" ? services.enterprise.price
     : training ? services.training.cards.find(card => card.id === topic)?.price
       : topic === "resume" ? undefined : services.consulting.price;
@@ -148,7 +156,8 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
         </label>
         {price && <p className="services-form-note">{price}</p>}
         {training && <p className="services-form-note">{ui.training}</p>}
-        {topic === "identity" && <p className="services-form-note">{services.consulting.cards.find(card => card.id === "identity")?.body}</p>}
+        {topic === "identity" && <p className="services-form-note">{selectedConsultation?.body} {selectedConsultation?.subtopics?.map(region => `${region.title}${region.body ? ` (${region.body})` : ""}`).join(lang === "en" ? "; " : "、")}</p>}
+        {topic === "finance" && <p className="services-form-note">{selectedConsultation?.body}</p>}
         {topic === "resume" && <p className="services-form-note">{services.about.resumeBody}</p>}
         <label className="services-field" htmlFor="service-goal"><span>02</span><strong>{ui.goal}</strong>
           <textarea id="service-goal" name="problem" value={goal} disabled={status === "sending"} onChange={event => { setGoal(event.target.value); setStatus("idle"); }} placeholder={topic === "resume" ? ui.resumeGoal : ui.goalPlaceholder} minLength={10} maxLength={1600} rows={5} required />

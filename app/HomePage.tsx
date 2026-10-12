@@ -409,7 +409,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
       if (window.location.hash !== "#contact") return;
       const target = new URL(servicePaths[lang], window.location.origin);
       target.searchParams.set("service", "enterprise");
-      target.hash = "contact";
+      target.hash = "enquiry";
       window.location.replace(target.toString());
     }
     redirectContact();
@@ -454,7 +454,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
               繁
             </a>
           </div>
-          <a className="nav-cta" href={`${servicePaths[lang]}?service=enterprise#contact`}>
+          <a className="nav-cta" href={`${servicePaths[lang]}?service=enterprise#enquiry`}>
             {t.navCta}
             <span aria-hidden="true">↗</span>
           </a>
@@ -476,7 +476,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
             </h1>
             <p className="hero-body"><strong>{t.heroBrand}</strong>{t.heroBody}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href={`${servicePaths[lang]}?service=enterprise#contact`}>
+              <a className="button button-primary" href={`${servicePaths[lang]}?service=enterprise#enquiry`}>
                 {t.heroPrimary}<span aria-hidden="true">↗</span>
               </a>
               <a className="button button-ghost" href="#approach">

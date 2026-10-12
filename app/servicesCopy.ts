@@ -41,6 +41,7 @@ export interface PersonalCopy {
       title: string;
       body: string;
       details: readonly string[];
+      summary?: string;
       subtopics?: readonly { title: string; body?: string; details?: readonly string[] }[];
       cta: string;
     }[];
@@ -136,27 +137,27 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           id: "career",
           title: "职场与产品职业发展",
-          body: "从第一份工作，到带团队、承担产品负责人职责，不同阶段聊不同的问题。",
-          details: ["面试技巧与简历指点", "晋升与和老板相处", "团队管理与产品负责人角色"],
+          body: "",
+          details: [],
+          summary: "面试技巧/简历指点/晋升答辩/和老板相处/带团队",
           cta: "说明职场问题",
         },
         {
           id: "finance",
           title: "理财实践交流",
           body: "只聊我自己实践过的内容。你可以先说明问题，我会确认它是否在我的经验范围内。",
-          details: ["梳理你的具体问题与目标", "交流亲自实践过的方法与经验", "讨论需要进一步核实的信息"],
+          details: ["只做稳健理财", "只做价值投资", "了解境内外税务情况", "有产品化工具辅助"],
           cta: "说明理财问题",
         },
         {
           id: "identity",
           title: "身份规划相关",
-          body: "只围绕香港、加拿大和新加坡交流，结合你的家庭安排与实际目标讨论选择。",
+          body: "只围绕以下三个地区交流：",
           details: [],
           subtopics: [
             {
-              title: "香港：高才通 A 类",
-              body: "围绕办理、续签与实际成本，梳理需要做的事情，以及是否值得继续。",
-              details: ["自己办理与自雇续签的经验交流", "公司注册、运营与审计相关事项梳理", "成本核算与是否继续的决策讨论"],
+              title: "中国香港地区",
+              body: "高才通 A 类相关",
             },
             { title: "加拿大" },
             { title: "新加坡" },
@@ -302,27 +303,27 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           id: "career",
           title: "Career & Product Leadership",
-          body: "From your first job to managing a team or taking on the Head of Product role, we focus on the questions relevant to your stage.",
-          details: ["Interview skills and résumé feedback", "Promotion and working with your manager", "Team management and product leadership"],
+          body: "",
+          details: [],
+          summary: "Interview skills / résumé feedback / promotion presentations / working with your manager / leading a team",
           cta: "Share your career question",
         },
         {
           id: "finance",
           title: "Personal Finance Experience",
           body: "I only cover approaches I have personally put into practice. Share your question first so I can confirm whether it falls within my experience.",
-          details: ["Clarify your question and goals", "Discuss methods and lessons from personal practice", "Identify information that needs further checking"],
+          details: ["A conservative approach to personal finance", "Value investing only", "Familiarity with domestic and overseas tax matters", "Product tools to support the process"],
           cta: "Share your finance question",
         },
         {
           id: "identity",
           title: "Residency Planning",
-          body: "I only discuss Hong Kong, Canada and Singapore, considering your family plans and practical goals.",
+          body: "I only discuss these three locations:",
           details: [],
           subtopics: [
             {
-              title: "Hong Kong: TTPS Category A",
-              body: "Discuss application, renewal and practical costs, including the work involved and whether to continue.",
-              details: ["Applying yourself and renewal through self-employment", "Company registration, operations and audit considerations", "Cost estimates and the decision to continue"],
+              title: "Hong Kong, China",
+              body: "TTPS Category A",
             },
             { title: "Canada" },
             { title: "Singapore" },

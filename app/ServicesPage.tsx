@@ -1,6 +1,7 @@
 import { personalCopy } from "./servicesCopy";
 import { servicePaths, toTraditional, type Lang } from "./servicesLanguage";
 import ServiceEnquiryForm from "./ServiceEnquiryForm";
+import ProductExperienceIcon from "./ProductExperienceIcons";
 import "./services.css";
 
 const homePaths: Record<Lang, string> = { "zh-Hans": "/zh", en: "/", "zh-Hant": "/zh-hant" };
@@ -102,12 +103,13 @@ export default function ServicesPage({ lang }: { lang: Lang }) {
         <section className="services-section services-container" id="consulting">
           <div className="services-section-heading"><p className="services-kicker">01 / {t.consulting.eyebrow}</p><h2>{ui.consulting}</h2><p>{t.consulting.intro}</p><strong className="services-price">{t.consulting.price}</strong></div>
           <div className="services-consulting-grid">
-            {t.consulting.cards.map((card, index) => <article className={`services-card${card.id === "identity" ? " services-card-identity" : ""}`} key={card.id}>
-              <span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p>
+            {t.consulting.cards.map((card, index) => <article className="services-card" key={card.id}>
+              <span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3>{card.body && <p>{card.body}</p>}
               {card.id === "career" && <div className="services-career-stages"><p>{ui.stages}</p><ol>{t.consulting.careerStages.map(stage => <li key={stage}>{stage}</li>)}</ol></div>}
               {card.details.length > 0 && <ul className="services-list">{card.details.map(detail => <li key={detail}>{detail}</li>)}</ul>}
+              {card.summary && <p className="services-card-summary">{card.summary}</p>}
               {card.subtopics && <div className="services-subtopics">{card.subtopics.map(subtopic => <div className="services-subtopic" key={subtopic.title}><h4>{subtopic.title}</h4>{subtopic.body && <p>{subtopic.body}</p>}{subtopic.details && <ul className="services-list">{subtopic.details.map(detail => <li key={detail}>{detail}</li>)}</ul>}</div>)}</div>}
-              <a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#contact`}>{card.cta}<span aria-hidden="true">→</span></a>
+              <a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#enquiry`}>{card.cta}<span aria-hidden="true">→</span></a>
             </article>)}
           </div>
           <p className="services-note">{t.consulting.note}</p>
@@ -116,20 +118,20 @@ export default function ServicesPage({ lang }: { lang: Lang }) {
         <section className="services-section services-training-section" id="training">
           <div className="services-container">
             <div className="services-section-heading"><p className="services-kicker">02 / {t.training.eyebrow}</p><h2>{ui.training}</h2><p className="services-training-tagline">{t.training.title}</p><p>{t.training.intro}</p></div>
-            <div className="services-training-grid">{t.training.cards.map((card, index) => <article className="services-training-card" key={card.id}><span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p><strong className="services-price">{card.price}</strong><a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#contact`}>{card.cta}<span aria-hidden="true">→</span></a></article>)}</div>
+            <div className="services-training-grid">{t.training.cards.map((card, index) => <article className="services-training-card" key={card.id}><span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p><strong className="services-price">{card.price}</strong><a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#enquiry`}>{card.cta}<span aria-hidden="true">→</span></a></article>)}</div>
             <div className="services-training-formats"><h3>{ui.formats}</h3><ul>{t.training.formats.map(format => <li key={format}>{format}</li>)}</ul></div><p className="services-note">{t.training.note}</p>
           </div>
         </section>
 
         <section className="services-section services-container" id="products">
           <div className="services-section-heading"><p className="services-kicker">03 / {t.products.eyebrow}</p><h2>{ui.products}</h2><p>{t.products.intro}</p></div>
-          <div className="services-products-grid">{t.products.cards.map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index}`} aria-hidden="true">{index === 0 ? "Aa / 你好" : index === 1 ? "ᓚᘏᗢ" : "▂ ▄ ▆ █"}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3><p>{card.body}</p></div></article>)}</div>
+          <div className="services-products-grid">{t.products.cards.map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index}`} aria-hidden="true">{index === 1 ? "ᓚᘏᗢ" : <ProductExperienceIcon kind={index === 0 ? "education" : "finance"} />}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3><p>{card.body}</p></div></article>)}</div>
         </section>
 
         <section className="services-section services-container" id="contact">
           <div className="services-section-heading"><p className="services-kicker">04 / CONTACT</p><h2>{ui.contact}</h2></div>
-          <div className="services-contact-grid"><dl className="services-accounts">{t.about.accounts.map(account => <div key={account.label}><dt>{account.label}</dt><dd>{account.href ? <a href={account.href} target={account.href.startsWith("mailto:") ? undefined : "_blank"} rel={account.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}>{account.value}<span aria-hidden="true">↗</span></a> : account.value}</dd></div>)}</dl><div className="services-resume"><p className="services-kicker">{ui.resume}</p><h3>{t.about.resumeTitle}</h3><p>{t.about.resumeBody}</p><a className="services-text-link" href={`${servicePaths[lang]}?service=resume#contact`}>{t.about.resumeCta}<span aria-hidden="true">→</span></a></div></div>
-          <div className="services-enquiry-panel"><div className="services-enquiry-intro"><div><h3>{ui.contactTitle}</h3><p>{ui.contactBody}</p></div><a className="services-button" href={enquiryHref(ui.title, lang)}>{ui.email}<span aria-hidden="true">↗</span></a></div><ServiceEnquiryForm lang={lang} /></div>
+          <div className="services-contact-grid"><dl className="services-accounts">{t.about.accounts.map(account => <div key={account.label}><dt>{account.label}</dt><dd>{account.href ? <a href={account.href} target={account.href.startsWith("mailto:") ? undefined : "_blank"} rel={account.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}>{account.value}<span aria-hidden="true">↗</span></a> : account.value}</dd></div>)}</dl><div className="services-resume"><p className="services-kicker">{ui.resume}</p><h3>{t.about.resumeTitle}</h3><p>{t.about.resumeBody}</p><a className="services-text-link" href={`${servicePaths[lang]}?service=resume#enquiry`}>{t.about.resumeCta}<span aria-hidden="true">→</span></a></div></div>
+          <div className="services-enquiry-panel" id="enquiry"><div className="services-enquiry-intro"><div><h3>{ui.contactTitle}</h3><p>{ui.contactBody}</p></div><a className="services-button" href={enquiryHref(ui.title, lang)}>{ui.email}<span aria-hidden="true">↗</span></a></div><ServiceEnquiryForm lang={lang} /></div>
         </section>
       </main>
       <footer className="services-footer services-container"><span>{ui.footer}</span><a href={homePaths[lang]}>{ui.back}<span aria-hidden="true">↗</span></a></footer>
