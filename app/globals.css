@@ -1769,7 +1769,11 @@ footer {
   }
 }
 
+.company-services-mobile { display: none; }
+.company-site .desktop-nav { gap: clamp(18px, 2vw, 36px); }
+
 @media (max-width: 1180px) {
+  .company-services-mobile { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 12px; color: var(--cyan-soft); }
   .desktop-nav { display: none; }
   .hero {
     grid-template-columns: minmax(0, 1fr) minmax(330px, 0.65fr);
@@ -1916,4 +1920,8 @@ footer {
   .brief-feedback a { grid-column: 2; justify-self: start; }
   footer { min-height: 210px; align-items: flex-start; justify-content: center; flex-direction: column; }
   .footer-legal { text-align: left; }
+}
+
+@media (max-width: 400px) {
+  .company-site .brand-type { display: none; }
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 
 import { langPaths, type Lang } from "./i18n";
+import { servicePaths } from "./servicesLanguage";
 
 const copy = {
   zh: {
@@ -502,7 +503,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
   }
 
   return (
-    <div className={`site ${lang === "en" ? "is-en" : "is-zh"}`}>
+    <div className={`site company-site ${lang === "en" ? "is-en" : "is-zh"}`}>
       <form
         name={briefFormName}
         data-netlify="true"
@@ -537,9 +538,11 @@ export default function HomePage({ lang }: { lang: Lang }) {
               {label}
             </a>
           ))}
+          <a href={servicePaths[lang]}>{lang === "en" ? "Services" : lang === "zh-Hant" ? "服務與交流" : "服务与交流"}</a>
         </nav>
 
         <div className="nav-actions">
+          <a className="company-services-mobile" href={servicePaths[lang]}>{lang === "en" ? "Services" : lang === "zh-Hant" ? "服務" : "服务"}<span aria-hidden="true">↗</span></a>
           <div className="lang-switch" aria-label="Language switcher">
             <a href={langPaths.en} hrefLang="en" aria-current={lang === "en" ? "page" : undefined} className={lang === "en" ? "active" : ""}>
               EN

@@ -24,4 +24,28 @@
     <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://meetcriticalpoint.com/zh-hant"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://meetcriticalpoint.com/"/>
   </url>
+  <url>
+    <loc>https://meetcriticalpoint.com/services</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://meetcriticalpoint.com/services"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://meetcriticalpoint.com/en/services"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://meetcriticalpoint.com/zh-hant/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://meetcriticalpoint.com/services"/>
+  </url>
+  <url>
+    <loc>https://meetcriticalpoint.com/en/services</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://meetcriticalpoint.com/services"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://meetcriticalpoint.com/en/services"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://meetcriticalpoint.com/zh-hant/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://meetcriticalpoint.com/services"/>
+  </url>
+  <url>
+    <loc>https://meetcriticalpoint.com/zh-hant/services</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://meetcriticalpoint.com/services"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://meetcriticalpoint.com/en/services"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://meetcriticalpoint.com/zh-hant/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://meetcriticalpoint.com/services"/>
+  </url>
 </urlset>
