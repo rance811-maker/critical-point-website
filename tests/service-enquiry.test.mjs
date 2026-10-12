@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   enterpriseStageLabels, enquiryFormName, enquiryNotificationEndpoint,
-  isServiceTopic, serializeServiceEnquiry, serviceEnquiryMailto,
+  isServiceTopic, resolveServiceTopic, serializeServiceEnquiry, serviceEnquiryMailto,
   serviceTopicIds, serviceTopicLabels, submitServiceEnquiry, validateServiceEnquiry,
 } from "../app/service-enquiry.ts";
 
@@ -12,6 +12,14 @@ const options = {
   supabaseUrl: "https://database.example.test/", supabaseAnonKey: "test-key",
 };
 const noNetwork = async () => { throw new Error("Unexpected external request"); };
+
+test("old Talent Pass links select residency planning without a duplicate topic", () => {
+  assert.equal(serviceTopicIds.includes("talent"), false);
+  assert.equal(isServiceTopic("talent"), false);
+  assert.equal(resolveServiceTopic("talent"), "identity");
+  for (const topic of serviceTopicIds) assert.equal(resolveServiceTopic(topic), topic);
+  for (const value of [null, "", "other", "__proto__"]) assert.equal(resolveServiceTopic(value), undefined);
+});
 
 test("all supported topics validate; unknown or prototype topic names do not", () => {
   for (const topic of serviceTopicIds) {

@@ -9,7 +9,7 @@ const pageCopy = {
   zh: {
     brand: "临界创新",
     title: "更多服务",
-    intro: "除一单一议的企业 AI 诊断及方案外，也提供主题范围和价格明确的标准化个人咨询、AI 与产品培训，并陆续开放免费的 AI 产品体验。",
+    intro: "除一单一议的企业 AI 诊断及方案外，也提供主题、范围和价格明确的标准化个人咨询、AI 与产品培训，并陆续开放免费的 AI 产品体验。",
     back: "返回公司首页",
     email: "邮件联系",
     contactNav: "联系",
@@ -102,10 +102,11 @@ export default function ServicesPage({ lang }: { lang: Lang }) {
         <section className="services-section services-container" id="consulting">
           <div className="services-section-heading"><p className="services-kicker">01 / {t.consulting.eyebrow}</p><h2>{ui.consulting}</h2><p>{t.consulting.intro}</p><strong className="services-price">{t.consulting.price}</strong></div>
           <div className="services-consulting-grid">
-            {t.consulting.cards.map((card, index) => <article className="services-card" key={card.id}>
+            {t.consulting.cards.map((card, index) => <article className={`services-card${card.id === "identity" ? " services-card-identity" : ""}`} key={card.id}>
               <span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p>
               {card.id === "career" && <div className="services-career-stages"><p>{ui.stages}</p><ol>{t.consulting.careerStages.map(stage => <li key={stage}>{stage}</li>)}</ol></div>}
-              <ul className="services-list">{card.details.map(detail => <li key={detail}>{detail}</li>)}</ul>
+              {card.details.length > 0 && <ul className="services-list">{card.details.map(detail => <li key={detail}>{detail}</li>)}</ul>}
+              {card.subtopics && <div className="services-subtopics">{card.subtopics.map(subtopic => <div className="services-subtopic" key={subtopic.title}><h4>{subtopic.title}</h4>{subtopic.body && <p>{subtopic.body}</p>}{subtopic.details && <ul className="services-list">{subtopic.details.map(detail => <li key={detail}>{detail}</li>)}</ul>}</div>)}</div>}
               <a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#contact`}>{card.cta}<span aria-hidden="true">→</span></a>
             </article>)}
           </div>

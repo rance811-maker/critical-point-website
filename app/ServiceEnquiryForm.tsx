@@ -5,18 +5,18 @@ import { personalCopy } from "./servicesCopy";
 import { toTraditional, type Lang } from "./servicesLanguage";
 import {
   enterpriseStageLabels, enquiryEmailSubject, enquiryFormName, enquiryMailbox,
-  isServiceTopic, serviceTopicIds, serviceTopicLabels, submitServiceEnquiry,
+  isServiceTopic, resolveServiceTopic, serviceTopicIds, serviceTopicLabels, submitServiceEnquiry,
   type EnquiryValidationError, type ServiceTopic,
 } from "./service-enquiry";
 import "./service-enquiry.css";
 
 const copy = {
   zh: {
-    kicker: "联系我 / 约 3 分钟", title: "先说说，你想解决什么。",
-    topic: "你想聊哪个方向？", chooseTopic: "请选择交流方向", goal: "你的背景、问题与目标是什么？",
+    title: "先说说，你想解决什么。",
+    topic: "想聊哪个方向？", chooseTopic: "请选择交流方向", goal: "你的背景、问题与目标是什么？",
     goalPlaceholder: "简要说说你目前的情况、遇到的问题，以及希望这次交流帮你推进什么。",
     resumeGoal: "请说明申请简历的来意、用途，并提供可核实的机构 / 角色或公开介绍链接。",
-    stage: "企业需求目前处于哪个阶段？", contact: "如何联系你？",
+    stage: "企业需求目前处于哪个阶段？", contact: "留下你的联系方式",
     contactPlaceholder: "邮箱、微信或 WhatsApp", submit: "提交需求", sending: "正在提交……",
     note: "提交需求免费，不会自动收费或确认预约。内容只用于此次沟通，不会公开显示。",
     storedTitle: "需求已保存", stored: "已收到你的需求，我会尽快联系你。",
@@ -30,11 +30,11 @@ const copy = {
     training: "培训从小白到高阶，线上线下一个价。线上只接一对一；线下可接一对一、一对二。具体时间、地点和一对二费用在开始前确认。",
   },
   en: {
-    kicker: "CONTACT ME / ABOUT 3 MIN", title: "What would you like to work through?",
+    title: "What would you like to work through?",
     topic: "What would you like to discuss?", chooseTopic: "Choose a topic", goal: "What is your background, question and goal?",
     goalPlaceholder: "Describe your situation, your question, and what you hope to move forward through this conversation.",
     resumeGoal: "Explain why you are requesting my résumé and how you will use it. Include your organisation / role or a public link that allows me to verify your identity.",
-    stage: "What stage is your business enquiry at?", contact: "How should I reach you?",
+    stage: "What stage is your business enquiry at?", contact: "Leave your contact details",
     contactPlaceholder: "Email, WeChat, or WhatsApp", submit: "Share your needs", sending: "Sending…",
     note: "Submitting an enquiry is free and does not charge you or confirm a booking. Your details are used for this conversation and are not displayed publicly.",
     storedTitle: "Enquiry saved", stored: "Your enquiry has been received. I will be in touch shortly.",
@@ -70,8 +70,9 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
       const value = new URL(window.location.href).searchParams.get("service");
       if (value === locationTopic.current) return;
       locationTopic.current = value;
-      if (value && isServiceTopic(value)) {
-        setTopic(value);
+      const selected = resolveServiceTopic(value);
+      if (selected) {
+        setTopic(selected);
         setStage("");
         setStatus("idle");
       }
@@ -138,7 +139,7 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
         <label className="services-form-honeypot" aria-hidden="true">
           Leave this field empty<input ref={honeypot} type="text" name="bot-field" tabIndex={-1} autoComplete="off" />
         </label>
-        <div className="services-form-head"><span>{ui.kicker}</span><h3>{ui.title}</h3></div>
+        <div className="services-form-head"><h3>{ui.title}</h3></div>
         <label className="services-field" htmlFor="service-topic"><span>01</span><strong>{ui.topic}</strong>
           <select id="service-topic" value={topic} required disabled={status === "sending"} onChange={event => { const value = event.target.value; if (value === "" || isServiceTopic(value)) setTopic(value); setStage(""); setStatus("idle"); }}>
             <option value="">{ui.chooseTopic}</option>
@@ -147,6 +148,7 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
         </label>
         {price && <p className="services-form-note">{price}</p>}
         {training && <p className="services-form-note">{ui.training}</p>}
+        {topic === "identity" && <p className="services-form-note">{services.consulting.cards.find(card => card.id === "identity")?.body}</p>}
         {topic === "resume" && <p className="services-form-note">{services.about.resumeBody}</p>}
         <label className="services-field" htmlFor="service-goal"><span>02</span><strong>{ui.goal}</strong>
           <textarea id="service-goal" name="problem" value={goal} disabled={status === "sending"} onChange={event => { setGoal(event.target.value); setStatus("idle"); }} placeholder={topic === "resume" ? ui.resumeGoal : ui.goalPlaceholder} minLength={10} maxLength={1600} rows={5} required />

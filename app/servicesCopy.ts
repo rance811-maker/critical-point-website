@@ -41,6 +41,7 @@ export interface PersonalCopy {
       title: string;
       body: string;
       details: readonly string[];
+      subtopics?: readonly { title: string; body?: string; details?: readonly string[] }[];
       cta: string;
     }[];
   };
@@ -140,17 +141,6 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
           cta: "说明职场问题",
         },
         {
-          id: "talent",
-          title: "香港高才通 A 类相关",
-          body: "围绕办理、续签与实际成本，帮助你梳理有哪些事情要做，以及是否值得继续。",
-          details: [
-            "自己办理与自雇续签的经验交流",
-            "公司注册、运营与审计相关事项梳理",
-            "成本核算与是否继续的决策讨论",
-          ],
-          cta: "说明高才相关问题",
-        },
-        {
           id: "finance",
           title: "理财实践交流",
           body: "只聊我自己实践过的内容。你可以先说明问题，我会确认它是否在我的经验范围内。",
@@ -161,7 +151,16 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
           id: "identity",
           title: "身份规划相关",
           body: "只围绕香港、加拿大和新加坡交流，结合你的家庭安排与实际目标讨论选择。",
-          details: ["香港", "加拿大", "新加坡"],
+          details: [],
+          subtopics: [
+            {
+              title: "香港：高才通 A 类",
+              body: "围绕办理、续签与实际成本，梳理需要做的事情，以及是否值得继续。",
+              details: ["自己办理与自雇续签的经验交流", "公司注册、运营与审计相关事项梳理", "成本核算与是否继续的决策讨论"],
+            },
+            { title: "加拿大" },
+            { title: "新加坡" },
+          ],
           cta: "说明身份规划需求",
         },
       ],
@@ -308,17 +307,6 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
           cta: "Share your career question",
         },
         {
-          id: "talent",
-          title: "Hong Kong Top Talent Pass Scheme (TTPS): Category A",
-          body: "Discuss application, renewal and practical costs, so you can understand the work involved and decide whether to continue.",
-          details: [
-            "Experience with applying yourself and renewal through self-employment",
-            "Company registration, operations and audit considerations",
-            "Cost estimates and the decision to continue",
-          ],
-          cta: "Share your Talent Pass question",
-        },
-        {
           id: "finance",
           title: "Personal Finance Experience",
           body: "I only cover approaches I have personally put into practice. Share your question first so I can confirm whether it falls within my experience.",
@@ -329,7 +317,16 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
           id: "identity",
           title: "Residency Planning",
           body: "I only discuss Hong Kong, Canada and Singapore, considering your family plans and practical goals.",
-          details: ["Hong Kong", "Canada", "Singapore"],
+          details: [],
+          subtopics: [
+            {
+              title: "Hong Kong: TTPS Category A",
+              body: "Discuss application, renewal and practical costs, including the work involved and whether to continue.",
+              details: ["Applying yourself and renewal through self-employment", "Company registration, operations and audit considerations", "Cost estimates and the decision to continue"],
+            },
+            { title: "Canada" },
+            { title: "Singapore" },
+          ],
           cta: "Share your residency planning needs",
         },
       ],

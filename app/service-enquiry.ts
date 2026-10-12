@@ -1,24 +1,24 @@
 import type { Lang } from "./servicesLanguage";
 
 export const serviceTopicIds = [
-  "enterprise", "career", "talent", "finance", "identity", "ai-usage", "product", "resume",
+  "enterprise", "career", "finance", "identity", "ai-usage", "product", "resume",
 ] as const;
 export type ServiceTopic = (typeof serviceTopicIds)[number];
 
 export const serviceTopicLabels: Record<Lang, Record<ServiceTopic, string>> = {
   "zh-Hans": {
-    enterprise: "企业 AI 诊断及方案", career: "职场与产品职业发展", talent: "香港高才通 A 类相关",
+    enterprise: "企业 AI 诊断及方案", career: "职场与产品职业发展",
     finance: "理财实践交流", identity: "身份规划相关", "ai-usage": "怎么用 AI",
     product: "怎么做产品", resume: "申请了解完整经历 / 简历",
   },
   "zh-Hant": {
-    enterprise: "企業 AI 診斷及方案", career: "職場與產品職業發展", talent: "香港高才通 A 類相關",
+    enterprise: "企業 AI 診斷及方案", career: "職場與產品職業發展",
     finance: "理財實踐交流", identity: "身份規劃相關", "ai-usage": "怎麼用 AI",
     product: "怎麼做產品", resume: "申請了解完整經歷 / 簡歷",
   },
   en: {
     enterprise: "Enterprise AI assessment & solutions", career: "Career & product leadership",
-    talent: "Hong Kong TTPS: Category A", finance: "Personal finance experience",
+    finance: "Personal finance experience",
     identity: "Residency planning", "ai-usage": "How to use AI", product: "How to build products",
     resume: "Request my background / résumé",
   },
@@ -37,6 +37,11 @@ export const enquiryMailbox = "rance811@gmail.com";
 
 export function isServiceTopic(value: string): value is ServiceTopic {
   return (serviceTopicIds as readonly string[]).includes(value);
+}
+
+export function resolveServiceTopic(value: string | null): ServiceTopic | undefined {
+  if (value === "talent") return "identity";
+  return value && isServiceTopic(value) ? value : undefined;
 }
 
 export interface ServiceEnquiryInput {
