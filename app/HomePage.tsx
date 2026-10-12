@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { FormEvent } from "react";
+import { useEffect } from "react";
 
 import { langPaths, type Lang } from "./i18n";
 import { servicePaths } from "./servicesLanguage";
@@ -401,126 +400,25 @@ const localizedCopy = {
   "zh-Hant": toTraditional(copy.zh),
 } as const;
 
-const briefFormName = "critical-point-project-brief";
-const briefEmailSubject = "Critical Point | New project brief";
-const netlifyFormEndpoint = "https://meetcriticalpoint.com/";
-const briefMailbox = "rance811@gmail.com";
-
-// Email notification goes through Netlify Forms. The site may be served from a
-// non-Netlify host (EdgeOne for www), so post to the Netlify-hosted domain
-// explicitly. The response is opaque (no-cors), so this is fire-and-forget.
-function sendBriefNotification(fields: Record<string, string>) {
-  return fetch(netlifyFormEndpoint, {
-    method: "POST",
-    mode: "no-cors",
-    keepalive: true,
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ "form-name": briefFormName, "bot-field": "", ...fields }).toString(),
-  }).catch(() => undefined);
-}
-
 export default function HomePage({ lang }: { lang: Lang }) {
-  const [briefProblem, setBriefProblem] = useState("");
-  const [briefStage, setBriefStage] = useState("");
-  const [briefContact, setBriefContact] = useState("");
-  const [briefStatus, setBriefStatus] = useState<"idle" | "sending" | "success" | "validation" | "error">("idle");
-  const [briefMailto, setBriefMailto] = useState(`mailto:${briefMailbox}`);
   const t = localizedCopy[lang];
 
   useEffect(() => {
     document.documentElement.lang = lang;
+    function redirectContact() {
+      if (window.location.hash !== "#contact") return;
+      const target = new URL(servicePaths[lang], window.location.origin);
+      target.searchParams.set("service", "enterprise");
+      target.hash = "contact";
+      window.location.replace(target.toString());
+    }
+    redirectContact();
+    window.addEventListener("hashchange", redirectContact);
+    return () => window.removeEventListener("hashchange", redirectContact);
   }, [lang]);
-
-  async function submitBrief(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const normalizedProblem = briefProblem.trim();
-    const normalizedContact = briefContact.trim();
-    const selectedStage = briefStage === "" ? "" : t.briefStages[Number(briefStage)];
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (normalizedProblem.length < 10 || normalizedContact.length < 3 || !selectedStage) {
-      setBriefStatus("validation");
-      return;
-    }
-
-    const briefMessage = [
-      `${t.briefProblem}\n${normalizedProblem}`,
-      `${t.briefStage}\n${selectedStage}`,
-      `${t.briefContact}\n${normalizedContact}`,
-    ].join("\n\n");
-    const mailto = `mailto:${briefMailbox}?subject=${encodeURIComponent(t.briefSubject)}&body=${encodeURIComponent(briefMessage)}`;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      window.location.href = mailto;
-      return;
-    }
-
-    const briefFields = {
-      problem: normalizedProblem,
-      stage: selectedStage,
-      contact: normalizedContact,
-      locale: lang,
-      source_url: window.location.href,
-    };
-
-    setBriefStatus("sending");
-
-    try {
-      const supabaseResponse = await fetch(`${supabaseUrl}/rest/v1/critical_point_project_briefs`, {
-        method: "POST",
-        headers: {
-          apikey: supabaseAnonKey,
-          Authorization: `Bearer ${supabaseAnonKey}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-        },
-        body: JSON.stringify(briefFields),
-      });
-
-      if (!supabaseResponse.ok) {
-        throw new Error("Submission failed");
-      }
-
-      void sendBriefNotification({ subject: briefEmailSubject, storage_status: "stored", ...briefFields });
-
-      setBriefProblem("");
-      setBriefStage("");
-      setBriefContact("");
-      setBriefStatus("success");
-    } catch {
-      // Storage failed: forward the brief by email so the lead is not lost, and
-      // give the visitor a prefilled email as a second channel. Keep the form
-      // filled in so nothing typed is lost either.
-      void sendBriefNotification({
-        subject: `[存储失败 / NOT SAVED] ${briefEmailSubject}`,
-        storage_status: "failed",
-        ...briefFields,
-      });
-      setBriefMailto(mailto);
-      setBriefStatus("error");
-    }
-  }
 
   return (
     <div className={`site company-site ${lang === "en" ? "is-en" : "is-zh"}`}>
-      <form
-        name={briefFormName}
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        hidden
-        aria-hidden="true"
-      >
-        <input type="hidden" name="form-name" value={briefFormName} />
-        <input type="hidden" name="subject" value={briefEmailSubject} data-remove-prefix />
-        <input type="text" name="bot-field" readOnly />
-        <textarea name="problem" readOnly />
-        <input type="text" name="stage" readOnly />
-        <input type="text" name="contact" readOnly />
-        <input type="text" name="locale" readOnly />
-        <input type="text" name="source_url" readOnly />
-        <input type="text" name="storage_status" readOnly />
-      </form>
       <header className="topbar">
         <a className="brand" href="#top" aria-label="Critical Point home">
           <span className="brand-mark" aria-hidden="true">
@@ -538,11 +436,11 @@ export default function HomePage({ lang }: { lang: Lang }) {
               {label}
             </a>
           ))}
-          <a href={servicePaths[lang]}>{lang === "en" ? "Services" : lang === "zh-Hant" ? "服務與交流" : "服务与交流"}</a>
+          <a href={servicePaths[lang]}>{lang === "en" ? "More services" : lang === "zh-Hant" ? "更多服務" : "更多服务"}</a>
         </nav>
 
         <div className="nav-actions">
-          <a className="company-services-mobile" href={servicePaths[lang]}>{lang === "en" ? "Services" : lang === "zh-Hant" ? "服務" : "服务"}<span aria-hidden="true">↗</span></a>
+          <a className="company-services-mobile" href={servicePaths[lang]}>{lang === "en" ? "Services" : lang === "zh-Hant" ? "更多服務" : "更多服务"}<span aria-hidden="true">↗</span></a>
           <div className="lang-switch" aria-label="Language switcher">
             <a href={langPaths.en} hrefLang="en" aria-current={lang === "en" ? "page" : undefined} className={lang === "en" ? "active" : ""}>
               EN
@@ -556,7 +454,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
               繁
             </a>
           </div>
-          <a className="nav-cta" href="#contact">
+          <a className="nav-cta" href={`${servicePaths[lang]}?service=enterprise#contact`}>
             {t.navCta}
             <span aria-hidden="true">↗</span>
           </a>
@@ -578,7 +476,7 @@ export default function HomePage({ lang }: { lang: Lang }) {
             </h1>
             <p className="hero-body"><strong>{t.heroBrand}</strong>{t.heroBody}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#contact">
+              <a className="button button-primary" href={`${servicePaths[lang]}?service=enterprise#contact`}>
                 {t.heroPrimary}<span aria-hidden="true">↗</span>
               </a>
               <a className="button button-ghost" href="#approach">
@@ -761,143 +659,6 @@ export default function HomePage({ lang }: { lang: Lang }) {
           </div>
         </section>
 
-        <section className="contact section-pad" id="contact">
-          <div className="contact-grid" aria-hidden="true" />
-          <div className="contact-layout">
-            <div className="contact-copy">
-              <p className="section-kicker">{t.contactKicker}</p>
-              <h2>{t.contactTitle}</h2>
-              <p className="contact-body">{t.contactBody}</p>
-              <a className="contact-email" href="mailto:rance811@gmail.com">
-                <span>rance811@gmail.com</span>
-                <b>{t.contactCta} ↗</b>
-              </a>
-              <p className="contact-note"><span />{t.contactNote}</p>
-            </div>
-
-            <form
-              className="project-brief"
-              name={briefFormName}
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              onSubmit={submitBrief}
-            >
-              <input type="hidden" name="form-name" value={briefFormName} />
-              <input type="hidden" name="subject" value={briefEmailSubject} data-remove-prefix />
-              <label className="brief-honeypot" aria-hidden="true">
-                Leave this field empty
-                <input type="text" name="bot-field" tabIndex={-1} autoComplete="off" />
-              </label>
-              <div className="brief-head">
-                <span>{t.briefKicker}</span>
-                <h3>{t.briefTitle}</h3>
-              </div>
-
-              <label className="brief-field" htmlFor="brief-problem">
-                <span>01</span>
-                <strong>{t.briefProblem}</strong>
-                <textarea
-                  id="brief-problem"
-                  name="problem"
-                  value={briefProblem}
-                  onChange={(event) => {
-                    setBriefProblem(event.target.value);
-                    setBriefStatus("idle");
-                  }}
-                  placeholder={t.briefProblemPlaceholder}
-                  rows={4}
-                  required
-                />
-              </label>
-
-              <fieldset className="brief-field brief-stage">
-                <legend><span>02</span><strong>{t.briefStage}</strong></legend>
-                <div className="stage-options">
-                  {t.briefStages.map((stage, index) => (
-                    <label key={stage}>
-                      <input
-                        type="radio"
-                        name="brief-stage"
-                        value={index}
-                        checked={briefStage === String(index)}
-                        onChange={(event) => {
-                          setBriefStage(event.target.value);
-                          setBriefStatus("idle");
-                        }}
-                        required
-                      />
-                      <span>{stage}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <label className="brief-field" htmlFor="brief-contact">
-                <span>03</span>
-                <strong>{t.briefContact}</strong>
-                <input
-                  id="brief-contact"
-                  name="contact"
-                  type="text"
-                  value={briefContact}
-                  onChange={(event) => {
-                    setBriefContact(event.target.value);
-                    setBriefStatus("idle");
-                  }}
-                  placeholder={t.briefContactPlaceholder}
-                  autoComplete="email"
-                  required
-                />
-              </label>
-
-              <button
-                className={`brief-submit ${briefStatus === "success" ? "is-success" : ""}`}
-                type="submit"
-                disabled={briefStatus === "sending"}
-              >
-                {briefStatus === "sending"
-                  ? t.briefSending
-                  : briefStatus === "success"
-                    ? t.briefSuccessTitle
-                    : t.briefSubmit}
-                <span aria-hidden="true">{briefStatus === "success" ? "✓" : "↗"}</span>
-              </button>
-              {briefStatus === "success" || briefStatus === "validation" || briefStatus === "error" ? (
-                <div
-                  className={`brief-feedback ${briefStatus}`}
-                  role={briefStatus === "error" ? "alert" : "status"}
-                  aria-live={briefStatus === "error" ? "assertive" : "polite"}
-                >
-                  <span className="brief-feedback-icon" aria-hidden="true">
-                    {briefStatus === "success" ? "✓" : briefStatus === "validation" ? "!" : "×"}
-                  </span>
-                  <div>
-                    <strong>
-                      {briefStatus === "success"
-                        ? t.briefSuccessTitle
-                        : briefStatus === "validation"
-                          ? t.briefValidationTitle
-                          : t.briefErrorTitle}
-                    </strong>
-                    <p>
-                      {briefStatus === "success"
-                        ? t.briefSuccess
-                        : briefStatus === "validation"
-                          ? t.briefValidation
-                          : t.briefError}
-                    </p>
-                  </div>
-                  {briefStatus === "error" ? (
-                    <a href={briefMailto}>{t.contactCta} ↗</a>
-                  ) : null}
-                </div>
-              ) : (
-                <p className="brief-note" aria-live="polite">{t.briefNote}</p>
-              )}
-            </form>
-          </div>
-        </section>
       </main>
 
       <footer>

@@ -26,6 +26,12 @@ Netlify uses `netlify.toml` to build and publish `dist/client`.
 
 Apply `supabase/schema.sql` once in the Supabase SQL editor before enabling the production form.
 
-## Services and conversations
+## More services and unified contact
 
-The company homepage retains its existing content. The Services menu opens `/services` (Simplified Chinese), `/en/services` (English), or `/zh-hant/services` (Traditional Chinese). The page covers enterprise AI assessment, paid consultation, AI/product training, upcoming products and personal contact details. Prices and service boundaries live in `app/servicesCopy.ts`; layout lives in `app/ServicesPage.tsx` with scoped styles in `app/services.css`. Each service opens a topic-specific email draft; no booking or payment is made on the page. Résumés are shared after purpose and identity are verified; the unsupplied phone number and product links are omitted.
+The company homepage retains its business content and links to `/services` (Simplified Chinese), `/en/services` (English), or `/zh-hant/services` (Traditional Chinese). Existing homepage `#contact` links redirect to the matching service page. Enterprise AI work is described in the introduction and quoted by project; the page then presents paid consultation, AI/product training, upcoming free AI products, and contact/social accounts without repeating the founder biography.
+
+The unified contact form is now on the service page. Service links preselect a topic using `?service=career#contact` (or another valid service ID). Enterprise enquiries retain the original four project stages; other topics store the chosen topic label in `stage`, which matches the existing `supabase/schema.sql` text constraint. Scope, prices and résumé-sharing conditions are unchanged. There is no automatic payment or booking.
+
+`app/ServicesPage.tsx` and `app/services.css` define the page. `app/ServiceEnquiryForm.tsx`, `app/service-enquiry.ts` and `app/service-enquiry.css` define form behaviour and styles. The original Supabase table and Netlify form name/notification endpoint are retained. When storage is not configured, the visitor gets a complete email draft and must send it themselves; a saved enquiry is not treated as failed solely because notification fails. Form tests use mocks and do not send live enquiries.
+
+The unsupplied phone number and product links remain omitted. Résumés are shared only after purpose and identity are verified.

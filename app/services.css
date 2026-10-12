@@ -38,7 +38,7 @@
 .services-intro h1 { margin: 18px 0 22px; font-size: clamp(40px, 5.5vw, 70px); line-height: 1.17; letter-spacing: -.055em; }
 .services-intro h1 > span { color: #3c9790; }
 .services-intro-body { max-width: 680px; font-size: 18px; color: var(--services-muted); }
-.services-directory { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 44px; border-top: 1px solid var(--services-line); border-bottom: 1px solid var(--services-line); }
+.services-directory { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 44px; border-top: 1px solid var(--services-line); border-bottom: 1px solid var(--services-line); }
 .services-directory a { display: flex; align-items: center; gap: 10px; padding: 21px 16px; font-size: 14px; border-right: 1px solid var(--services-line); transition: background .15s ease; }
 .services-directory a:first-child { padding-left: 0; }
 .services-directory a:last-child { border-right: 0; }
@@ -49,19 +49,11 @@
 .services-section-heading { margin-bottom: 30px; }
 .services-section-heading h2 { margin-top: 12px; margin-bottom: 16px; font-size: clamp(26px, 3vw, 38px); line-height: 1.4; letter-spacing: -.035em; white-space: pre-line; }
 .services-section-heading > p:not(.services-kicker) { max-width: 720px; color: var(--services-muted); }
+.services-training-section .services-section-heading > .services-training-tagline { font-size: 19px; line-height: 1.65; margin-bottom: 14px; color: #345f56; }
 .services-price { display: block; font-size: 16px; font-weight: 600; line-height: 1.65; margin-top: 18px; }
-.services-enterprise-panel { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; padding: 44px; background: #133b3c; color: #f4f6ef; border-radius: 4px; }
-.services-lead { font-size: 16px; line-height: 1.95; }
-.services-enterprise-panel .services-button { margin-top: 30px; background: #d9ece0; color: #133b3c; border-color: #d9ece0; }
 .services-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 30px; padding: 13px 19px; border: 1px solid #133b3c; background: #133b3c; color: #f4f6ef !important; font-size: 14px; font-weight: 600; line-height: 1.6; border-radius: 2px; }
-.services-enterprise-panel .services-button { color: #133b3c !important; }
 .services-button:hover { opacity: .86; }
-.services-enterprise-price { display: block; font-size: 25px; font-weight: 500; margin-bottom: 18px; }
-.services-enterprise-details ol { padding: 0; list-style: none; }
-.services-enterprise-details li { display: flex; gap: 18px; padding: 12px 0; border-top: 1px solid #386061; font-size: 15px; }
-.services-enterprise-details li > span { color: #aac9bd; font-size: 11px; padding-top: 3px; }
 .services-note { color: var(--services-muted); font-size: 13px; line-height: 1.8; margin-top: 22px !important; }
-.services-enterprise-panel .services-note { color: #b4cac1; }
 .services-consulting-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .services-card { display: flex; flex-direction: column; padding: 32px; border: 1px solid var(--services-line); border-radius: 4px; background: #fcfdf8; }
 .services-card-number { display: block; margin-bottom: 14px; color: #82938a; font-size: 12px; }
@@ -92,10 +84,8 @@
 .services-product-body { padding: 26px; }
 .services-product-body h3 { font-size: 19px; margin-top: 12px; }
 .services-status { display: inline-block; padding: 3px 8px; font-size: 11px; line-height: 1.5; border: 1px solid var(--services-line); color: var(--services-muted); }
-.services-about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; }
-.services-about-name { font-size: 28px !important; }
-.services-about-role { color: var(--services-muted); font-size: 13px; margin-top: 6px !important; margin-bottom: 22px !important; }
-.services-resume { padding: 26px; background: #e8eee1; margin-top: 28px; border-radius: 4px; }
+.services-contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: start; gap: 70px; }
+.services-resume { padding: 26px; background: #e8eee1; border-radius: 4px; }
 .services-resume h3 { margin-top: 10px; font-size: 18px; }
 .services-resume > p:not(.services-kicker) { margin-top: 10px; margin-bottom: 18px; font-size: 14px; color: var(--services-muted); }
 .services-accounts { padding-top: 3px; }
@@ -104,11 +94,11 @@
 .services-accounts dd { overflow-wrap: anywhere; font-size: 16px; }
 .services-accounts a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .services-accounts a:hover { color: #24786e; }
-.services-contact { background: #133b3c; color: #f4f6ef; padding: 46px 0; }
-.services-contact-content { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-.services-contact h2 { font-size: 26px; line-height: 1.5; letter-spacing: -.035em; }
-.services-contact p { max-width: 600px; color: #b4cac1; font-size: 14px; margin-top: 12px; }
-.services-contact .services-button { flex-shrink: 0; background: #d9ece0; border-color: #d9ece0; color: #133b3c !important; }
+.services-enquiry-panel { margin-top: 42px; padding-top: 38px; border-top: 1px solid var(--services-line); }
+.services-enquiry-intro { display: flex; align-items: center; justify-content: space-between; gap: 40px; margin-bottom: 28px; }
+.services-enquiry-intro h3 { font-size: 26px; line-height: 1.5; letter-spacing: -.035em; }
+.services-enquiry-intro p { max-width: 640px; color: var(--services-muted); font-size: 14px; margin-top: 12px; }
+.services-enquiry-intro .services-button { flex-shrink: 0; }
 .services-footer { min-height: 0; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 0; border: 0; background: var(--services-paper); color: var(--services-muted); font-size: 12px; }
 .services-footer a { display: flex; gap: 14px; }
 @media (max-width: 1000px) {
@@ -116,10 +106,9 @@
   .services-header { padding-right: 32px; padding-left: 32px; }
   .services-directory a { padding-right: 10px; padding-left: 10px; font-size: 12px; gap: 6px; }
   .services-directory a > span { display: none; }
-  .services-enterprise-panel { gap: 32px; padding: 32px; }
-  .services-about-grid { gap: 40px; }
+  .services-contact-grid { gap: 40px; }
   .services-product-body { padding: 22px; }
-  .services-contact-content { align-items: flex-start; flex-direction: column; gap: 24px; }
+  .services-enquiry-intro { align-items: flex-start; flex-direction: column; gap: 20px; }
 }
 @media (max-width: 680px) {
   .services-container { width: calc(100% - 40px); }
@@ -144,11 +133,7 @@
   .services-section-heading { margin-bottom: 24px; }
   .services-section-heading h2 { margin-top: 10px; margin-bottom: 12px; }
   .services-section-heading > p:not(.services-kicker) { font-size: 15px; }
-  .services-enterprise-panel, .services-consulting-grid, .services-training-grid, .services-products-grid, .services-about-grid { grid-template-columns: 1fr; }
-  .services-enterprise-panel { gap: 28px; padding: 24px; }
-  .services-enterprise-panel .services-button { margin-top: 22px; }
-  .services-lead { font-size: 15px; }
-  .services-enterprise-price { font-size: 23px; }
+  .services-consulting-grid, .services-training-grid, .services-products-grid, .services-contact-grid { grid-template-columns: 1fr; }
   .services-card, .services-training-card { padding: 24px; }
   .services-page h3 { font-size: 20px; }
   .services-career-stages { padding: 15px; }
@@ -159,11 +144,11 @@
   .services-products-grid { gap: 16px; }
   .services-product-art { height: 110px; }
   .services-product-body { padding: 22px; }
-  .services-about-grid { gap: 30px; }
+  .services-contact-grid { gap: 24px; }
   .services-resume { padding: 22px; }
-  .services-contact { padding: 34px 0; }
-  .services-contact h2 { font-size: 23px; }
-  .services-contact .services-button { font-size: 13px; gap: 18px; }
+  .services-enquiry-panel { margin-top: 30px; padding-top: 28px; }
+  .services-enquiry-intro h3 { font-size: 23px; }
+  .services-enquiry-intro .services-button { font-size: 13px; gap: 18px; }
   .services-footer { align-items: flex-start; font-size: 11px; padding: 22px 0; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
