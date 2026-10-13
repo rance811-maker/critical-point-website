@@ -2,6 +2,7 @@ import { personalCopy } from "./servicesCopy";
 import { servicePaths, toTraditional, type Lang } from "./servicesLanguage";
 import ServiceEnquiryForm from "./ServiceEnquiryForm";
 import ProductExperienceIcon from "./ProductExperienceIcons";
+import ProductExperiences, { type ProductGroup } from "./ProductExperiences";
 import "./services.css";
 
 const homePaths: Record<Lang, string> = { "zh-Hans": "/zh", en: "/", "zh-Hant": "/zh-hant" };
@@ -10,7 +11,7 @@ const pageCopy = {
   zh: {
     brand: "临界创新",
     title: "更多服务",
-    intro: "除一单一议的企业 AI 诊断及方案外，也提供主题、范围和价格明确的标准化个人咨询、AI 与产品培训，并陆续开放免费的 AI 产品体验。",
+    intro: "除一单一议的企业 AI 诊断及方案外，也提供主题、范围和价格明确的标准化个人咨询、AI 与产品培训，以及免费的 AI 产品体验。",
     back: "返回公司首页",
     email: "邮件联系",
     contactNav: "联系",
@@ -30,7 +31,7 @@ const pageCopy = {
   en: {
     brand: "临界创新",
     title: "More Services",
-    intro: "Alongside enterprise AI assessment and solutions quoted by project, I offer standard personal consulting and AI and product training with clearly defined topics and rates. Free AI product experiences will also become available over time.",
+    intro: "Alongside enterprise AI assessment and solutions quoted by project, I offer standard personal consulting and AI and product training with clearly defined topics and rates, plus free AI product experiences.",
     back: "Back to company home",
     email: "Contact by email",
     contactNav: "Contact",
@@ -117,15 +118,15 @@ export default function ServicesPage({ lang }: { lang: Lang }) {
 
         <section className="services-section services-training-section" id="training">
           <div className="services-container">
-            <div className="services-section-heading"><p className="services-kicker">02 / {t.training.eyebrow}</p><h2>{ui.training}</h2><p className="services-training-tagline">{t.training.title}</p><p>{t.training.intro}</p></div>
-            <div className="services-training-grid">{t.training.cards.map((card, index) => <article className="services-training-card" key={card.id}><span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p><strong className="services-price">{card.price}</strong><a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#enquiry`}>{card.cta}<span aria-hidden="true">→</span></a></article>)}</div>
-            <div className="services-training-formats"><h3>{ui.formats}</h3><ul>{t.training.formats.map(format => <li key={format}>{format}</li>)}</ul></div><p className="services-note">{t.training.note}</p>
+            <div className="services-section-heading"><p className="services-kicker">02 / {t.training.eyebrow}</p><h2>{ui.training}</h2><p>{t.training.intro}</p><strong className="services-price">{t.training.price}</strong></div>
+            <div className="services-training-grid">{t.training.cards.map((card, index) => <article className="services-training-card" key={card.id}><span className="services-card-number">0{index + 1}</span><h3>{card.title}</h3><p>{card.body}</p><a className="services-text-link" href={`${servicePaths[lang]}?service=${card.id}#enquiry`}>{card.cta}<span aria-hidden="true">→</span></a></article>)}</div>
+            <div className="services-training-formats"><h3>{ui.formats}</h3><ul>{t.training.formats.map(format => <li key={format}>{format}</li>)}</ul></div>
           </div>
         </section>
 
         <section className="services-section services-container" id="products">
           <div className="services-section-heading"><p className="services-kicker">03 / {t.products.eyebrow}</p><h2>{ui.products}</h2><p>{t.products.intro}</p></div>
-          <div className="services-products-grid">{t.products.cards.map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index}`} aria-hidden="true">{index === 1 ? "ᓚᘏᗢ" : <ProductExperienceIcon kind={index === 0 ? "education" : "finance"} />}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3><p>{card.body}</p></div></article>)}</div>
+          <div className="services-products-grid">{t.products.cards.map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index}`} aria-hidden="true">{index === 1 ? "ᓚᘏᗢ" : <ProductExperienceIcon kind={index === 0 ? "education" : "finance"} />}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3>{card.body && <p>{card.body}</p>}<ProductExperiences group={(["education", "cat", "finance"] as ProductGroup[])[index]} lang={lang} /></div></article>)}</div>
         </section>
 
         <section className="services-section services-container" id="contact">

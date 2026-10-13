@@ -27,7 +27,7 @@ const copy = {
       topic: "请选择一个有效的交流方向。", goal: "请用 10–1600 个字说明你的背景、问题与目标。",
       contact: "请填写联系方式，长度为 3–500 个字。", stage: "请选择企业需求目前所处的阶段。",
     },
-    training: "培训从小白到高阶，线上线下一个价。线上只接一对一；线下可接一对一、一对二。具体时间、地点和一对二费用在开始前确认。",
+    training: "线上线下一个价。线上只接一对一；线下可接一对一、一对二。",
   },
   en: {
     title: "What would you like to work through?",
@@ -45,7 +45,7 @@ const copy = {
       topic: "Choose a valid topic.", goal: "Describe your background, question and goal in 10–1600 characters.",
       contact: "Enter contact details using 3–500 characters.", stage: "Choose the current stage of your business enquiry.",
     },
-    training: "Training is available from beginner to advanced, at the same rates online and in person. Online sessions are one-to-one only; in-person sessions can be one-to-one or one-to-two. Timing, location and one-to-two fees are confirmed before we begin.",
+    training: "The same rate applies online and in person. Online sessions are one-to-one only; in-person sessions can be one-to-one or one-to-two.",
   },
 };
 
@@ -97,7 +97,7 @@ export default function ServiceEnquiryForm({ lang }: { lang: Lang }) {
   const training = topic === "ai-usage" || topic === "product";
   const selectedConsultation = services.consulting.cards.find(card => card.id === topic);
   const price = !topic ? undefined : topic === "enterprise" ? services.enterprise.price
-    : training ? services.training.cards.find(card => card.id === topic)?.price
+    : training ? services.training.price
       : topic === "resume" ? undefined : services.consulting.price;
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {

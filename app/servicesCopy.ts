@@ -48,13 +48,12 @@ export interface PersonalCopy {
   };
   training: {
     eyebrow: string;
-    title: string;
     intro: string;
+    price: string;
     cards: readonly {
       id: PersonalServiceId;
       title: string;
       body: string;
-      price: string;
       cta: string;
     }[];
     formats: readonly string[];
@@ -129,8 +128,8 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
       eyebrow: "付费咨询",
       title: "带着一个具体问题来。",
       intro:
-        "我能提供的，是工作与生活实践中的经验和判断。先把你的处境、困惑与期待的结果说清楚，我们再确认这次咨询聊什么。",
-      price: "120 新币 / 小时 · 600 人民币 / 小时",
+        "我能提供的，是工作与生活实践中的经验和决策逻辑。先把你的处境、困惑与期待的结果说清楚，我们再确认这次咨询聊什么。",
+      price: "700 港币 / 小时 · 600 人民币 / 小时",
       note: "以下咨询按小时收费，具体时长与使用币种在开始前确认。",
       careerStages: ["应届生", "职场进阶", "团队管理者", "产品负责人一号位"],
       cards: [
@@ -168,38 +167,36 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
     },
     training: {
       eyebrow: "AI 培训",
-      title: "从小白到高阶，\n按你的起点来学。",
       intro: "可以从一个真实任务或产品想法开始。先了解你的基础与目标，再确定内容和节奏。",
+      price: "700 港币 / 小时 · 600 人民币 / 小时",
       cards: [
         {
           id: "ai-usage",
           title: "怎么用 AI",
           body: "从入门使用到更进阶的应用，围绕你想完成的任务学习与练习。",
-          price: "100 新币 / 小时 · 500 人民币 / 小时",
           cta: "说明 AI 学习需求",
         },
         {
           id: "product",
           title: "怎么做产品",
           body: "从理解问题与用户需求开始，学习如何把想法整理成产品，再逐步深入。",
-          price: "120 新币 / 小时 · 600 人民币 / 小时",
           cta: "说明产品学习需求",
         },
       ],
       formats: ["线上：只接一对一", "线下：可接一对一、一对二", "线上线下一个价"],
-      note: "一对二的具体费用、地点和课程安排，在开始前确认。",
+      note: "",
     },
     products: {
       eyebrow: "AI 产品体验",
       title: "我正在做的产品。",
-      intro: "陆续上新。体验入口开放后，会在这里更新。",
+      intro: "以下产品可直接打开体验。",
       cards: [
-        { title: "AI 教育", body: "语法与口语学习相关的 AI 产品体验。", status: "陆续上新" },
-        { title: "猫伴", body: "猫伴的产品体验与进展将在这里更新。", status: "陆续上新" },
+        { title: "AI 教育", body: "语法与口语学习的 AI 产品。", status: "开放体验" },
+        { title: "猫伴", body: "", status: "开放体验" },
         {
           title: "AI 家庭理财管理系统",
-          body: "围绕家庭理财管理的 AI 产品体验。",
-          status: "陆续上新",
+          body: "家庭资产管理与人民币投资决策工具。",
+          status: "开放体验",
         },
       ],
     },
@@ -226,7 +223,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           question: "费用怎么确认？",
           answer:
-            "个人咨询和「怎么做产品」培训为 120 新币 / 小时或 600 人民币 / 小时；「怎么用 AI」培训为 100 新币 / 小时或 500 人民币 / 小时。企业 AI 服务一单一议。具体范围、时长、币种与费用在开始前确认。",
+            "个人咨询、「怎么用 AI」与「怎么做产品」培训均为 700 港币 / 小时或 600 人民币 / 小时。企业 AI 服务一单一议。具体范围、时长、币种与费用在开始前确认。",
         },
         {
           question: "提交需求后就算预约了吗？",
@@ -234,9 +231,9 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
             "还没有。提交需求是免费了解彼此是否匹配的第一步，不会自动收费或确认预约。双方先确认交流范围、时间与费用，再安排咨询或培训。",
         },
         {
-          question: "培训适合什么基础，可以怎么上课？",
+          question: "培训可以怎么上课？",
           answer:
-            "从小白到高阶都可以先说明目标。线上只接一对一；线下可接一对一或一对二，线上线下一个价。一对二的具体费用与地点另行确认。",
+            "先说明你的基础与目标。线上只接一对一；线下可接一对一或一对二，线上线下同价，为 700 港币 / 小时或 600 人民币 / 小时。",
         },
         {
           question: "能直接下载你的简历吗？",
@@ -295,8 +292,8 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
       eyebrow: "Paid Consulting",
       title: "Bring a specific question.",
       intro:
-        "I share experience and judgment drawn from my own work and life. Tell me about your situation, your question and the outcome you hope for, so we can agree on what to cover.",
-      price: "SGD 120 / hour · RMB 600 / hour",
+        "I share experience and decision-making logic drawn from my own work and life. Tell me about your situation, your question and the outcome you hope for, so we can agree on what to cover.",
+      price: "HKD 700 / hour · RMB 600 / hour",
       note: "Consulting is charged by the hour. Duration and payment currency are confirmed before we begin.",
       careerStages: ["New graduates", "Career progression", "Team managers", "Head of Product"],
       cards: [
@@ -334,38 +331,36 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
     },
     training: {
       eyebrow: "AI Training",
-      title: "From beginner to advanced,\nstart where you are.",
       intro: "Bring a real task or product idea. We clarify your starting point and goals, then agree on the content and pace.",
+      price: "HKD 700 / hour · RMB 600 / hour",
       cards: [
         {
           id: "ai-usage",
           title: "How to Use AI",
           body: "Learn and practise AI use, from the basics to more advanced applications, around the tasks you want to complete.",
-          price: "SGD 100 / hour · RMB 500 / hour",
           cta: "Share your AI learning goals",
         },
         {
           id: "product",
           title: "How to Build Products",
           body: "Start by understanding problems and user needs, then learn how to turn an idea into a product and develop your skills further.",
-          price: "SGD 120 / hour · RMB 600 / hour",
           cta: "Share your product learning goals",
         },
       ],
       formats: ["Online: one-to-one only", "In person: one-to-one or one-to-two", "Same rates online and in person"],
-      note: "Fees for one-to-two sessions, location and lesson arrangements are confirmed before we begin.",
+      note: "",
     },
     products: {
       eyebrow: "AI Products",
       title: "What I'm building.",
-      intro: "Launching over time. Experience links will appear here when they are ready.",
+      intro: "Open the products below to try them.",
       cards: [
-        { title: "AI Education", body: "AI products for grammar and speaking practice.", status: "Coming soon" },
-        { title: "猫伴 · Mao Ban", body: "Product progress and experience updates will appear here.", status: "Coming soon" },
+        { title: "AI Education", body: "AI products for grammar and speaking practice.", status: "Available to try" },
+        { title: "猫伴 · Mao Ban", body: "", status: "Available to try" },
         {
           title: "AI Household Finance Management",
-          body: "An AI product focused on managing household finances.",
-          status: "Coming soon",
+          body: "Tools for household assets and RMB investment decisions.",
+          status: "Available to try",
         },
       ],
     },
@@ -392,7 +387,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           question: "How are fees confirmed?",
           answer:
-            "Personal consulting and product training cost SGD 120 or RMB 600 per hour. AI usage training costs SGD 100 or RMB 500 per hour. Enterprise AI work is quoted by project. Scope, duration, currency and fees are confirmed before we begin.",
+            "Personal consulting, AI usage training and product training all cost HKD 700 or RMB 600 per hour. Enterprise AI work is quoted by project. Scope, duration, currency and fees are confirmed before we begin.",
         },
         {
           question: "Does submitting a request book a session?",
@@ -400,9 +395,9 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
             "No. Sharing your needs is a free first step to see whether we're a good fit. It does not automatically charge you or confirm a booking. We agree on scope, timing and fees before arranging consulting or training.",
         },
         {
-          question: "Who is training for, and how are sessions delivered?",
+          question: "How are training sessions delivered?",
           answer:
-            "Beginners and advanced learners can share their goals. Online sessions are one-to-one only. In-person sessions can be one-to-one or one-to-two, with the same rates online and in person. Fees and location for one-to-two sessions are confirmed separately.",
+            "Share your starting point and goals. Online sessions are one-to-one only. In-person sessions can be one-to-one or one-to-two. The same rate applies online and in person: HKD 700 or RMB 600 per hour.",
         },
         {
           question: "Can I download your résumé directly?",
