@@ -5,9 +5,6 @@
 .services-experience-link { display: inline-flex; align-items: center; gap: 15px; padding: 7px 0; margin-top: 9px; border-bottom: 1px solid #9cbaa6; font-size: 14px; font-weight: 600; }
 .services-experience-link:hover { color: #24786e; border-color: #24786e; }
 .services-experience > .services-experience-privacy { font-size: 12px; line-height: 1.8; padding: 12px; margin-top: 15px; background: #edf3e7; color: #3e6054; }
-.services-experience-video { margin-top: 18px; }
-.services-experience-video > p { font-size: 12px; margin-bottom: 8px; color: var(--services-muted); }
-.services-experience-video video { display: block; width: 100%; height: auto; max-height: 320px; border-radius: 3px; background: #102d34; }
 @media (max-width: 680px) {
   .services-experience h4 { font-size: 17px; }
   .services-experiences { gap: 20px; }
