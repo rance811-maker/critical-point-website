@@ -81,7 +81,7 @@
 .services-training-formats h3 { font-size: 15px; white-space: nowrap; }
 .services-training-formats ul { display: flex; flex-wrap: wrap; gap: 10px 30px; padding: 0; list-style: none; font-size: 14px; }
 .services-training-formats li::before { content: "✓"; margin-right: 8px; color: #39756a; }
-.services-products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.services-products-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 20px; }
 .services-product-card { border: 1px solid var(--services-line); border-radius: 4px; overflow: hidden; background: #fcfdf8; }
 .services-product-art { display: flex; align-items: center; justify-content: center; height: 130px; font-size: 30px; letter-spacing: -.05em; background: #dfe9d7; color: #345f56; font-family: Georgia, "PingFang SC", serif; }
 .services-product-art-1 { background: #ede7dc; color: #736355; font-size: 48px; }

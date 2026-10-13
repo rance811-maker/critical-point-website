@@ -2,10 +2,15 @@
 .services-experience + .services-experience { padding-top: 22px; border-top: 1px solid var(--services-line); }
 .services-experience h4 { margin: 0; color: var(--services-ink); font-size: 17px; line-height: 1.6; font-weight: 600; }
 .services-experience > p { margin-top: 8px; font-size: 14px; line-height: 1.8; color: var(--services-muted); }
+.services-page .services-experience > p:not(.services-experience-privacy) { margin-top: 8px; }
 .services-experience-link { display: inline-flex; align-items: center; gap: 15px; padding: 7px 0; margin-top: 9px; border-bottom: 1px solid #9cbaa6; font-size: 14px; font-weight: 600; }
 .services-experience-link:hover { color: #24786e; border-color: #24786e; }
 .services-experience > .services-experience-privacy { font-size: 12px; line-height: 1.8; padding: 12px; margin-top: 15px; background: #edf3e7; color: #3e6054; }
+.services-experiences-finance { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.services-experiences-finance .services-experience { min-width: 0; padding: 18px; border: 1px solid var(--services-line); border-radius: 4px; background: #f4f7ef; }
+.services-experiences-finance .services-experience > .services-experience-privacy { padding: 0; background: none; }
 @media (max-width: 680px) {
   .services-experience h4 { font-size: 17px; }
   .services-experiences { gap: 20px; }
+  .services-experiences-finance { grid-template-columns: minmax(0, 1fr); gap: 16px; }
 }

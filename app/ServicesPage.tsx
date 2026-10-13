@@ -128,7 +128,7 @@ export default function ServicesPage({ lang }: { lang: Lang }) {
         <section className="services-section services-container" id="products">
           <div className="services-section-heading"><p className="services-kicker">03 / {t.products.eyebrow}</p><h2>{ui.products}</h2><p>{t.products.intro}</p></div>
           <GrammarQuestShowcase lang={lang} />
-          <div className="services-products-grid">{t.products.cards.map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index}`} aria-hidden="true">{index === 1 ? "ᓚᘏᗢ" : <ProductExperienceIcon kind={index === 0 ? "education" : "finance"} />}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3>{card.body && <p>{card.body}</p>}<ProductExperiences group={(["education", "cat", "finance"] as ProductGroup[])[index]} lang={lang} /></div></article>)}</div>
+          <div className="services-products-grid">{t.products.cards.slice(1).map((card, index) => <article className="services-product-card" key={card.title}><div className={`services-product-art services-product-art-${index + 1}`} aria-hidden="true">{index === 0 ? "ᓚᘏᗢ" : <ProductExperienceIcon kind="finance" />}</div><div className="services-product-body"><span className="services-status">{card.status}</span><h3>{card.title}</h3>{card.body && <p>{card.body}</p>}<ProductExperiences group={(["cat", "finance"] as ProductGroup[])[index]} lang={lang} /></div></article>)}</div>
         </section>
 
         <section className="services-section services-container" id="contact">
