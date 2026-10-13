@@ -151,7 +151,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           id: "identity",
           title: "身份规划相关",
-          body: "只围绕以下三个地区交流：",
+          body: "只围绕以下地区交流，核心为技术类移民：",
           details: [],
           subtopics: [
             {
@@ -160,6 +160,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
             },
             { title: "加拿大" },
             { title: "新加坡" },
+            { title: "澳洲" },
           ],
           cta: "说明身份规划需求",
         },
@@ -315,7 +316,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         {
           id: "identity",
           title: "Residency Planning",
-          body: "I only discuss these three locations:",
+          body: "I only discuss the following locations, with a focus on skilled migration:",
           details: [],
           subtopics: [
             {
@@ -324,6 +325,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
             },
             { title: "Canada" },
             { title: "Singapore" },
+            { title: "Australia" },
           ],
           cta: "Share your residency planning needs",
         },
