@@ -17,7 +17,6 @@ const copy: Record<"zh" | "en", { cta: string; groups: Record<ProductGroup, Expe
       ],
       finance: [
         { name: "VigorWealth", href: "https://vigorwealth.netlify.app/", description: "用产品化工具梳理家庭资产与投资决策。", privacy: "隐私保护目标：隐私数据全部留存在你的本地。本地存储升级中。" },
-        { name: "大额人民币资金投资决策工具", href: "https://vigorwealth-rmb.netlify.app/", description: "不预测，靠结构。", privacy: "你录入的财务数据保存在当前浏览器本地。" },
       ],
     },
   },
@@ -33,7 +32,6 @@ const copy: Record<"zh" | "en", { cta: string; groups: Record<ProductGroup, Expe
       ],
       finance: [
         { name: "VigorWealth", href: "https://vigorwealth.netlify.app/", description: "Product tools for organising household assets and investment decisions.", privacy: "Privacy goal: keep private data on your device. Local storage is being developed." },
-        { name: "RMB Investment Decision Tool", href: "https://vigorwealth-rmb.netlify.app/", description: "Structure, rather than prediction.", privacy: "The financial data you enter is saved in your current browser." },
       ],
     },
   },

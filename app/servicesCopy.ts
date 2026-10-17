@@ -196,7 +196,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         { title: "猫伴", body: "", status: "开放体验" },
         {
           title: "AI 家庭理财管理系统",
-          body: "家庭资产管理与人民币投资决策工具。",
+          body: "家庭资产管理与投资决策工具。",
           status: "开放体验",
         },
       ],
@@ -361,7 +361,7 @@ export const personalCopy: Record<"zh" | "en", PersonalCopy> = {
         { title: "猫伴 · Mao Ban", body: "", status: "Available to try" },
         {
           title: "AI Household Finance Management",
-          body: "Tools for household assets and RMB investment decisions.",
+          body: "Tools for household assets and investment decisions.",
           status: "Available to try",
         },
       ],
