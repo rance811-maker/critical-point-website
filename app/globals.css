@@ -1193,6 +1193,40 @@ footer {
   letter-spacing: 0.1em;
 }
 
+.founder-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px 24px;
+}
+
+.founder-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 0;
+  color: #176a78;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: color 180ms ease;
+}
+
+.founder-website:hover {
+  color: #104b57;
+  text-decoration-thickness: 2px;
+}
+
+.founder-website:focus-visible {
+  outline: 2px solid #176a78;
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+
 .founder-intro {
   max-width: 680px;
   margin: 26px 0 0;

@@ -629,7 +629,18 @@ export default function HomePage({ lang }: { lang: Lang }) {
           <div className="founder-copy">
             <p className="section-kicker">{t.founderKicker}</p>
             <span className="founder-role">{t.founderRole}</span>
-            <h2>{t.founderTitle}</h2>
+            <div className="founder-heading">
+              <h2>{t.founderTitle}</h2>
+              <a
+                className="founder-website"
+                href="https://zouran.net/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={lang === "en" ? "Personal website: zouran.net (opens in a new tab)" : lang === "zh-Hant" ? "個人網站：zouran.net（在新分頁開啟）" : "个人网站：zouran.net（在新标签页打开）"}
+              >
+                zouran.net <span aria-hidden="true">↗</span>
+              </a>
+            </div>
             <p className="founder-intro">{t.founderIntro}</p>
             <blockquote>{t.founderQuote}</blockquote>
             <div className="founder-pillars">
